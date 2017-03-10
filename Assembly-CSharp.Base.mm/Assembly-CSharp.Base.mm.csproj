@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{34E81F62-F88C-44EF-96D9-DBBD2C46DF34}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ETGMod</RootNamespace>
+    <AssemblyName>Assembly-CSharp.Base.mm</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\libs\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\libs\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\libs\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\libs\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\libs\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\ETGMod\ETGMod.cs" />
+    <Compile Include="src\BlackMagic\ReflectionHelper.cs" />
+    <Compile Include="src\ETGMod\ETGModBehaviour.cs" />
+    <Compile Include="src\ModLoader\Mod.cs" />
+    <Compile Include="src\ModLoader\ModLoader.cs" />
+    <Compile Include="src\FSUtils\FSUtils.cs" />
+    <Compile Include="src\Extensions\String.cs" />
+    <Compile Include="src\ModLoader\Metadata.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="src\Patches\" />
+    <Folder Include="src\ETGMod\" />
+    <Folder Include="src\BlackMagic\" />
+    <Folder Include="src\ModLoader\" />
+    <Folder Include="src\FSUtils\" />
+    <Folder Include="src\Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Assembly-CSharp.BasePre.mm\Assembly-CSharp.BasePre.mm.csproj">
+      <Project>{EC6C2E23-2BFD-494B-8D02-637314C4B0BB}</Project>
+      <Name>Assembly-CSharp.BasePre.mm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnityEngine.Base.mm\UnityEngine.Base.mm.csproj">
+      <Project>{BCD03ACB-E715-4A3D-A4C2-C5717A5D41E4}</Project>
+      <Name>UnityEngine.Base.mm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Assembly-CSharp.Core.mm\Assembly-CSharp.Core.mm.csproj">
+      <Project>{4473AD38-DAF1-449A-A850-4296D3368413}</Project>
+      <Name>Assembly-CSharp.Core.mm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnityEngine.Core.mm\UnityEngine.Core.mm.csproj">
+      <Project>{85EEF778-D1A0-4DFD-8B6C-AF6BE334DB92}</Project>
+      <Name>UnityEngine.Core.mm</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
