@@ -9,10 +9,10 @@ namespace ETGMod {
             MainMenuLoadedFirstTime?.Invoke(menu);
         }
 
-        public static Action<GameManager> GameStarted;
-        public static void InvokeGameStarted(GameManager game) {
+        public static Action GameStarted;
+        public static void InvokeGameStarted() {
             _Logger.Debug(nameof(GameStarted));
-            GameStarted?.Invoke(game);
+            GameStarted?.Invoke();
         }
     }
 }

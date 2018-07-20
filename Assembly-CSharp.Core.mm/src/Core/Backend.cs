@@ -105,7 +105,9 @@ namespace ETGMod {
             return new SearchResult(result, best_match);
         }
 
-        public abstract void Loaded();
+        public virtual void Loaded() { }
+        public virtual void PreGameManagerAlive() { }
+        public virtual void GameManagerAlive() { }
         public virtual void AllBackendsLoaded() { }
         public virtual void NoBackendsLoadedYet() { }
 

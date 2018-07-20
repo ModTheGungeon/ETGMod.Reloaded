@@ -182,7 +182,7 @@ namespace ETGMod {
             }
         }
 
-        public override void Loaded() {
+        public override void PreGameManagerAlive() {
             Instance = this;
 
             Logger.Info($"Core ETGMod init {FullVersion}");
@@ -264,8 +264,8 @@ namespace ETGMod {
 
         private static object[] _EmptyObjectArray = { };
         public void Update() {
-            Console.WriteLine($"HOOK DEBUG INT {HookDebug(3)}");
-            Console.WriteLine($"HOOK DEBUG STRING {HookDebug("Hello")}");
+            //Console.WriteLine($"HOOK DEBUG INT {HookDebug(3)}");
+            //Console.WriteLine($"HOOK DEBUG STRING {HookDebug("Hello")}");
             if (Input.GetKeyDown(MOD_RELOAD_KEY)) _ReloadMods(manual: true);
         }
     }

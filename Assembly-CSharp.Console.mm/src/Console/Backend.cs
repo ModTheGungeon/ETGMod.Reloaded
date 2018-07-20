@@ -11,7 +11,7 @@ namespace ETGMod.Console {
         public static Logger Logger = new Logger("Console");
         public override Version Version { get { return new Version(0, 1, 0); } }
 
-        public override void Loaded() {
+        public override void GameManagerAlive() {
             Instance = this;
             GUI.GUI.MenuController.AddMenu<ConsoleMenu>(new KeyCode[] { KeyCode.F2, KeyCode.BackQuote, KeyCode.Slash });
             _Executor = new Parser.Executor((name, args, history_index) => {

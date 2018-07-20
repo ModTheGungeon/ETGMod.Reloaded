@@ -18,8 +18,8 @@ Assembly-CSharp.GUI.mm/bin/{TARGET}/Assembly-CSharp.GUI.mm.dll
 Assembly-CSharp.TexMod.mm/bin/{TARGET}/Assembly-CSharp.TexMod.mm.dll
 
 # internal [UnityEngine]
-UnityEngine.Core.mm/bin/{TARGET}/UnityEngine.Core.mm.dll
-UnityEngine.Base.mm/bin/{TARGET}/UnityEngine.Base.mm.dll
+UnityEngine.Core.mm/bin/{TARGET}/UnityEngine.CoreModule.Core.mm.dll
+UnityEngine.Base.mm/bin/{TARGET}/UnityEngine.CoreModule.Base.mm.dll
 
 # licenses
 LICENSE_ETGMOD

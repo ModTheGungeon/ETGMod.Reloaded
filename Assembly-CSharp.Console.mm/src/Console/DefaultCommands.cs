@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ETGMod.GUI;
+using ETGMod.Tools;
 using UnityEngine;
 
 namespace ETGMod.Console {
@@ -141,12 +142,80 @@ namespace ETGMod.Console {
                 return args[0];
             });
 
+            AddCommand("exec", (args) => {
+                var script = args[0];
+                try {
+                    var result = ETGMod.ModLoader.LuaState.DoString(script);
+                    string output = "[?]";
+                    if (result.Count > 0) {
+                        var b = new StringBuilder();
+                        foreach (var r in result) {
+                            b.AppendLine(r.ToString());
+                        }
+                        output = b.ToString();
+                    } else output = "[ok]";
+                    return output;
+                } catch (Eluant.LuaException e) {
+                    return e.ToString();
+                }
+            });
+
             AddGroup("dump")
+                .WithSubCommand("synergy_chest", (args) => {
+                    System.Console.WriteLine(ObjectDumper.Dump(GameManager.Instance.RewardManager.Synergy_Chest, depth: 10));
+                    return "Dumped to log";
+                })
+                .WithSubCommand("synergies", (args) => {
+                    var id = 0;
+                    foreach (var synergy in GameManager.Instance.SynergyManager.synergies) {
+                        if (synergy.NameKey != null) {
+                            var name = StringTableManager.GetSynergyString(synergy.NameKey);
+                            System.Console.WriteLine($"== SYNERGY ID {id} NAME {name} ==");
+                        } else {
+                            System.Console.WriteLine($"== SYNERGY ID {id} ==");
+                        }
+                        System.Console.WriteLine($"  ACTIVATION STATUS: {synergy.ActivationStatus}");
+                        System.Console.WriteLine($"  # OF OBJECTS REQUIRED: {synergy.NumberObjectsRequired}");
+                        System.Console.WriteLine($"  ACTIVE WHEN GUN UNEQUIPPED?: {synergy.ActiveWhenGunUnequipped}");
+                        System.Console.WriteLine($"  REQUIRES AT LEAST ONE GUN AND ONE ITEM?: {synergy.RequiresAtLeastOneGunAndOneItem}");
+                        System.Console.WriteLine($"  MANDATORY GUNS:");
+                        foreach (var itemid in synergy.MandatoryGunIDs) {
+                            System.Console.WriteLine($"  - {_GetPickupObjectName(PickupObjectDatabase.GetById(itemid))}");
+                        }
+                        System.Console.WriteLine($"  OPTIONAL GUNS:");
+                        foreach (var itemid in synergy.OptionalGunIDs) {
+                            System.Console.WriteLine($"  - {_GetPickupObjectName(PickupObjectDatabase.GetById(itemid))}");
+                        }
+                        System.Console.WriteLine($"  MANDATORY ITEMS:");
+                        foreach (var itemid in synergy.MandatoryItemIDs) {
+                            System.Console.WriteLine($"  - {_GetPickupObjectName(PickupObjectDatabase.GetById(itemid))}");
+                        }
+                        System.Console.WriteLine($"  OPTIONAL ITEMS:");
+                        foreach (var itemid in synergy.OptionalItemIDs) {
+                            System.Console.WriteLine($"  - {_GetPickupObjectName(PickupObjectDatabase.GetById(itemid))}");
+                        }
+                        System.Console.WriteLine($"  BONUS SYNERGIES:");
+                        foreach (var bonus in synergy.bonusSynergies) {
+                            System.Console.WriteLine($"  - {bonus}");
+                        }
+                        System.Console.WriteLine($"  STAT MODIFIERS:");
+                        foreach (var statmod in synergy.statModifiers) {
+                            System.Console.WriteLine($"  - STAT: {statmod.statToBoost}");
+                            System.Console.WriteLine($"    AMOUNT: {statmod.amount}");
+                            System.Console.WriteLine($"    MODIFY TYPE: {statmod.modifyType}");
+                            System.Console.WriteLine($"    PERSISTS ON COOP DEATH?: {statmod.PersistsOnCoopDeath}");
+                            System.Console.WriteLine($"    IGNORED FOR SAVE DATA?: {statmod.ignoredForSaveData}");
+                        }
+                        id++;
+                    }
+                    return "Dumped to log";
+                })
                 .WithSubCommand("items", (args) => {
                     var b = new StringBuilder();
                     var db = PickupObjectDatabase.Instance.Objects;
                     for (int i = 0; i < db.Count; i++) {
                         PickupObject obj = null;
+                        string nameprefix = "";
                         string name = null;
                         try {
                             obj = db[i];
@@ -171,6 +240,8 @@ namespace ETGMod.Console {
                         if (name == null && obj != null) {
                             name = "[NULL NAME (but object is not null)]";
                         }
+
+                        name = $"{nameprefix} {name}";
 
                         if (name != null) {
                             b.AppendLine($"{i}: {name}");

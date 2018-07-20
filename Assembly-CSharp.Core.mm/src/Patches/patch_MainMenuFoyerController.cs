@@ -14,7 +14,10 @@ namespace ETGMod.CorePatches {
 
         private extern void orig_Awake();
         protected void AddModVersions() {
-            if (Instance == null) Instance = this;
+            if (Instance == null) {
+                Console.WriteLine($"SETTING INSTANCE TO {this}");
+                Instance = this;
+            }
             orig_Awake();
 
             _orig_height = VersionLabel.Height;

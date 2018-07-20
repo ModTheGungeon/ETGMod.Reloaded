@@ -36,6 +36,9 @@
     <Reference Include="System.Windows.Forms">
       <HintPath>..\libs\System.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\libs\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +72,10 @@
     <ProjectReference Include="..\Assembly-CSharp.Base.mm\Assembly-CSharp.Base.mm.csproj">
       <Project>{34E81F62-F88C-44EF-96D9-DBBD2C46DF34}</Project>
       <Name>Assembly-CSharp.Base.mm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Eluant\Eluant\Eluant.csproj">
+      <Project>{D4CFD952-4EDC-421D-84A5-998688815124}</Project>
+      <Name>Eluant</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

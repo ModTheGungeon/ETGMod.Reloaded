@@ -31,7 +31,7 @@
     <Folder Include="src\Extensions\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\Patches\patch_GameManager.cs" />
+    <Compile Include="src\Patches\patch_FoyerPreloader.cs" />
     <Compile Include="src\Patches\patch_MainMenuFoyerController.cs" />
     <Compile Include="src\Core\Backend.cs" />
     <Compile Include="src\Core\Core.cs" />
@@ -41,6 +41,7 @@
     <Compile Include="src\Core\UnityUtil.cs" />
     <Compile Include="src\Extensions\BinaryReader.cs" />
     <Compile Include="src\Core\EventHooks.cs" />
+    <Compile Include="src\Patches\patch_GameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -51,6 +52,15 @@
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\libs\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\libs\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\libs\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>..\libs\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

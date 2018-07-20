@@ -53,6 +53,9 @@
     <Reference Include="UnityEngine">
       <HintPath>..\libs\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\libs\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,7 +106,7 @@
     </ProjectReference>
     <ProjectReference Include="..\UnityEngine.Base.mm\UnityEngine.Base.mm.csproj">
       <Project>{BCD03ACB-E715-4A3D-A4C2-C5717A5D41E4}</Project>
-      <Name>UnityEngine.Base.mm</Name>
+      <Name>UnityEngine.CoreModule.Base.mm</Name>
     </ProjectReference>
     <ProjectReference Include="..\Assembly-CSharp.Core.mm\Assembly-CSharp.Core.mm.csproj">
       <Project>{4473AD38-DAF1-449A-A850-4296D3368413}</Project>
@@ -111,7 +114,7 @@
     </ProjectReference>
     <ProjectReference Include="..\UnityEngine.Core.mm\UnityEngine.Core.mm.csproj">
       <Project>{85EEF778-D1A0-4DFD-8B6C-AF6BE334DB92}</Project>
-      <Name>UnityEngine.Core.mm</Name>
+      <Name>UnityEngine.CoreModule.Core.mm</Name>
     </ProjectReference>
     <ProjectReference Include="..\libs\YamlDotNet\YamlDotNet\YamlDotNet.csproj">
       <Project>{BF32DE1B-6276-4341-B212-F8862ADBBA7A}</Project>

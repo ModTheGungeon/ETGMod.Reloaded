@@ -11,17 +11,22 @@ namespace ETGMod.GUI {
         public static SGUIRoot GUIRoot;
         public static MenuController MenuController;
         public static NotificationController NotificationController;
-        private static GameObject _GameObject = new GameObject("GUI");
+        private static GameObject _GameObject;
 
         public override Version Version { get { return new Version(0, 1, 0); } }
 
-        public override void Loaded() {}
-
-        public override void NoBackendsLoadedYet() {
+        public override void PreGameManagerAlive() {
             Logger.Info("Initializing SGUI");
 
             GUIRoot = SGUIRoot.Setup();
-            SGUIIMBackend.GetFont = (SGUIIMBackend backend) => FontCache.GungeonFont ?? (FontCache.GungeonFont = FontConverter.DFFontToUnityFont((dfFont)CorePatches.MainMenuFoyerController.Instance.VersionLabel.Font, 2));
+            SGUIIMBackend.GetFont = (SGUIIMBackend backend) => {
+                Console.WriteLine($"GETFONT INSTANCE: {CorePatches.MainMenuFoyerController.Instance}");
+                if (CorePatches.MainMenuFoyerController.Instance?.VersionLabel == null) return null;
+                return FontCache.GungeonFont ?? (FontCache.GungeonFont = FontConverter.DFFontToUnityFont((dfFont)CorePatches.MainMenuFoyerController.Instance.VersionLabel.Font, 2));
+            };
+
+            _GameObject = new GameObject("GUI");
+            DontDestroyOnLoad(_GameObject);
 
             Logger.Info("Initializing menu controller");
             MenuController = _GameObject.AddComponent<MenuController>();

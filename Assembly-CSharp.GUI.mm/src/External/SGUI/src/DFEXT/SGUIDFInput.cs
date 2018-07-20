@@ -26,14 +26,14 @@ namespace SGUI {
         }
 
         public bool GetKeyDown(KeyCode key) {
-            if (Backend.LastKeyEventConsumed) {
+            if (Backend != null && Backend.LastKeyEventConsumed) {
                 return false;
             }
             return Base.GetKeyDown(key);
         }
 
         public bool GetKeyUp(KeyCode key) {
-            if (Backend.LastKeyEventConsumed) {
+            if (Backend != null && Backend.LastKeyEventConsumed) {
                 return false;
             }
             return Base.GetKeyUp(key);
@@ -44,28 +44,28 @@ namespace SGUI {
         }
 
         public Vector2 GetMousePosition() {
-            if (Backend.LastMouseEventConsumed) {
+            if (Backend != null && Backend.LastMouseEventConsumed) {
                 return NULLV2;
             }
             return Base.GetMousePosition();
         }
 
         public bool GetMouseButton(int button) {
-            if (Backend.LastMouseEventConsumed) {
+            if (Backend != null && Backend.LastMouseEventConsumed) {
                 return false;
             }
             return Base.GetMouseButton(button);
         }
 
         public bool GetMouseButtonDown(int button) {
-            if (Backend.LastMouseEventConsumed) {
+            if (Backend != null && Backend.LastMouseEventConsumed) {
                 return false;
             }
             return Base.GetMouseButtonDown(button);
         }
 
         public bool GetMouseButtonUp(int button) {
-            if (Backend.LastMouseEventConsumed) {
+            if (Backend != null && Backend.LastMouseEventConsumed) {
                 return true;
             }
             return Base.GetMouseButtonUp(button);

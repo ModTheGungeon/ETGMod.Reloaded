@@ -4,7 +4,7 @@ install_in_managed:
   - LICENSE_MONO
  
 ordered_targets:
-  - UnityEngine
+  - UnityEngine.CoreModule
   - Assembly-CSharp
 
 #relink_map:
