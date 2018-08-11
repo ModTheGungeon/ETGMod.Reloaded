@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using ETGMod.GUI;
 using ETGMod.Tools;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ETGMod.Console {
     public partial class Console : Backend {
@@ -37,6 +40,60 @@ namespace ETGMod.Console {
             }
         }
 
+        private PlayerController _ObtainCharacter(string name, bool alt) {
+            PlayerController primaryPlayer = GameManager.Instance.PrimaryPlayer;
+            Vector3 position = primaryPlayer.transform.position;
+            Object.Destroy(primaryPlayer.gameObject);
+            GameManager.Instance.ClearPrimaryPlayer();
+            GameManager.PlayerPrefabForNewGame = (GameObject)BraveResources.Load(name, ".prefab");
+            PlayerController component = GameManager.PlayerPrefabForNewGame.GetComponent<PlayerController>();
+            GameStatsManager.Instance.BeginNewSession(component);
+            PlayerController playerController = null;
+            if (playerController == null) {
+                GameObject gameObject = Object.Instantiate<GameObject>(GameManager.PlayerPrefabForNewGame, position, Quaternion.identity);
+                GameManager.PlayerPrefabForNewGame = null;
+                gameObject.SetActive(true);
+                playerController = gameObject.GetComponent<PlayerController>();
+            }
+            if (alt) playerController.SwapToAlternateCostume(null);
+            GameManager.Instance.PrimaryPlayer = playerController;
+            playerController.PlayerIDX = 0;
+            return playerController;
+        }
+
+        private IEnumerator _ChangeCharacter(string name, bool alt) {
+            PlayerController new_player;
+            var gun_game = false;
+            //Pixelator.Instance.FadeToBlack(0.5f, false, 0f);
+            if (GameManager.Instance.PrimaryPlayer) {
+                gun_game = GameManager.Instance.PrimaryPlayer.CharacterUsesRandomGuns;
+            }
+            GameManager.Instance.PrimaryPlayer.SetInputOverride("getting deleted");
+            yield return new WaitForSeconds(0.5f);
+
+            new_player = _ObtainCharacter(name, alt);
+            yield return null;
+
+            GameManager.Instance.MainCameraController.ClearPlayerCache();
+            GameManager.Instance.MainCameraController.SetManualControl(false, true);
+            Foyer.Instance.ProcessPlayerEnteredFoyer(new_player);
+            Foyer.Instance.PlayerCharacterChanged(new_player);
+            PhysicsEngine.Instance.RegisterOverlappingGhostCollisionExceptions(new_player.specRigidbody, null, false);
+            //Pixelator.Instance.FadeToBlack(0.5f, true, 0f);
+            yield return new WaitForSeconds(0.1f);
+
+            if (gun_game) {
+                PlayerController primaryPlayer = GameManager.Instance.PrimaryPlayer;
+                primaryPlayer.CharacterUsesRandomGuns = true;
+                for (int i = 1; i < primaryPlayer.inventory.AllGuns.Count; i++) {
+                    Gun gun = primaryPlayer.inventory.AllGuns[i];
+                    primaryPlayer.inventory.RemoveGunFromInventory(gun);
+                    Object.Destroy(gun.gameObject);
+                    i--;
+                }
+            }
+        }
+
         internal void AddDefaultCommands() {
             _LoggerSubscriber = (logger, loglevel, indent, str) => {
                 PrintLine(logger.String(loglevel, str, indent: indent), color: _LoggerColors[loglevel]);
@@ -60,6 +117,38 @@ namespace ETGMod.Console {
             });
 
             AddGroup("debug")
+                .WithSubCommand("dualwield", (args) => {
+                    if (args.Count < 1) throw new Exception("At least 1 argument required.");
+                    var partner_id = int.Parse(args[0]);
+                    var player = GameManager.Instance.PrimaryPlayer;
+                    var gun = player.inventory.CurrentGun;
+                    var partner_gun = PickupObjectDatabase.GetById(partner_id) as Gun;
+                    player.inventory.AddGunToInventory(partner_gun);
+                    var forcer = gun.gameObject.AddComponent<DualWieldForcer>();
+                    forcer.Gun = gun;
+                    forcer.PartnerGunID = partner_gun.PickupObjectId;
+                    forcer.TargetPlayer = player;
+                    return "Done";
+                })
+                .WithSubCommand("unexclude-all-items", (args) => {
+                    foreach (var ent in PickupObjectDatabase.Instance.Objects) {
+                        if (ent == null) continue;
+                        ent.quality = PickupObject.ItemQuality.SPECIAL;
+                    }
+                    return "Done";
+                })
+                .WithSubCommand("activate-all-synergies", (args) => {
+                    foreach (var ent in GameManager.Instance.SynergyManager.synergies) {
+                        if (ent == null) continue;
+                        ent.ActivationStatus = SynergyEntry.SynergyActivation.ACTIVE;
+                    }
+                    return "Done";
+                })
+                .WithSubCommand("character", (args) => {
+                    if (args.Count < 1) throw new Exception("At least 1 argument required.");
+                    StartCoroutine(_ChangeCharacter(args[0], args.Count > 1));
+                    return $"Changed character to {args[0]}";
+                })
                 .WithSubCommand("parser-bounds-test", (args) => {
                     var text = "echo Hello! \"Hello world!\" This\\ is\\ great \"It\"works\"with\"\\ wacky\" stuff\" \\[\\] \"\\[\\]\" [e[echo c][echo h][echo [echo \"o\"]] \"hel\"[echo lo][echo !]]";
                     CurrentCommandText = text;

@@ -29,6 +29,7 @@
     <Folder Include="src\Patches\" />
     <Folder Include="src\Core\" />
     <Folder Include="src\Extensions\" />
+    <Folder Include="src\External\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Patches\patch_FoyerPreloader.cs" />
@@ -42,6 +43,7 @@
     <Compile Include="src\Extensions\BinaryReader.cs" />
     <Compile Include="src\Core\EventHooks.cs" />
     <Compile Include="src\Patches\patch_GameManager.cs" />
+    <Compile Include="src\External\ObjectDumper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

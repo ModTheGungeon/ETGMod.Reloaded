@@ -6,7 +6,6 @@ using UnityEngine;
 namespace ETGMod {
     public partial class ETGMod : Backend {
         public const KeyCode MOD_RELOAD_KEY = KeyCode.F5;
-
         public override Version Version { get { return new Version(0, 3, 0); } }
 
         public static bool AutoReloadMods = true;

@@ -21,15 +21,21 @@ namespace ETGMod {
                         if (line.Length == 0) continue;
 
                         var split = line.Split(' ');
-                        if (split.Length < 2) {
+                        if (split.Length < 3) {
                             throw new Exception($"Failed parsing ID map file: not enough columns at line {line_id} (need at least 2, ID and the name)");
+                        }
+                        var type_el_split = split[0].Split(',');
+                        var type = type_el_split[0];
+                        string subtype = null;
+                        if (type_el_split.Length >= 2) {
+                            subtype = type_el_split[1];
                         }
 
                         int id;
-                        if (!int.TryParse(split[0], out id)) throw new Exception($"Failed parsing ID map file: ID column at line {line_id} was not an integer");
+                        if (!int.TryParse(split[1], out id)) throw new Exception($"Failed parsing ID map file: ID column at line {line_id} was not an integer");
 
                         try {
-                            pool[$"gungeon:{split[1]}"] = list[id];
+                            pool[$"gungeon:{split[2]}"] = list[id];
                         } catch (Exception e) {
                             throw new Exception($"Failed loading ID map file: Error while adding entry to ID pool ({e.Message})");
                         }

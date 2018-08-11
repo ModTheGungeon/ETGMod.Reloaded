@@ -53,6 +53,7 @@
     <Compile Include="src\Console\Command.cs" />
     <Compile Include="src\Console\History.cs" />
     <Compile Include="src\Console\DefaultCommands.cs" />
+    <Compile Include="src\Console\DualWieldForcer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Nowy folder\" />
