@@ -19,3 +19,6 @@
 [submodule "libs/Logger"]
 	path = libs/Logger
 	url = https://github.com/modthegungeon/Logger
+[submodule "libs/MicroLua"]
+	path = libs/MicroLua
+	url = https://github.com/modthegungeon/MicroLua
