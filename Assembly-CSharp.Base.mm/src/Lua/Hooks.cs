@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Reflection;
 using System.Collections.Generic;
-using Eluant;
+using MicroLua;
 
 namespace ETGMod.Lua {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class ForbidLuaHookingAttribute : Attribute {}
 
     public class HookManager : IDisposable {
-        public Dictionary<long, LuaFunction> Hooks = new Dictionary<long, LuaFunction>();
+        public Dictionary<long, int> Hooks = new Dictionary<long, int>();
         public Dictionary<long, System.Type> HookReturns = new Dictionary<long, System.Type>();
 
         public static List<string> ForbiddenNamespaces = new List<string> {
@@ -21,7 +21,7 @@ namespace ETGMod.Lua {
 
         public void Dispose() {
             foreach (var kv in Hooks) {
-                kv.Value.Dispose();
+                ETGMod.ModLoader.LuaState.DeleteLuaReference(kv.Value);
             }
         }
 
@@ -68,64 +68,90 @@ namespace ETGMod.Lua {
             // all good if it gets here (hopefully!)
         }
 
-        public void Add(LuaTable details, LuaFunction fn) {
-            Type criteria_type;
-            string criteria_methodname;
+        public void Add(int details_table, int fn) {
+            var lua = ETGMod.ModLoader.LuaState;
+            lua.EnterArea();
+
+            Type criteria_type = null;
+            string criteria_methodname = null;
             Type[] criteria_argtypes = null;
-            bool criteria_instance;
-            bool criteria_public;
-            bool hook_returns;
+            bool criteria_instance = true;
+            bool criteria_public = true;
+            bool hook_returns = false;
 
-            using (var ftype = details["type"]) {
-                if (ftype == null) {
-                    throw new LuaException($"type: Expected Type, got null");
-                }
-                if (!(ftype is IClrObject)) {
-                    throw new LuaException($"type: Expected CLR Type object, got non-CLR object of type {ftype.GetType()}");
-                } else if (!(((IClrObject)ftype).ClrObject is Type)) {
-                    throw new LuaException($"type: Expected CLR Type object, got CLR object of type {((IClrObject)ftype).ClrObject.GetType()}");
-                }
+            lua.PushLuaReference(details_table);
 
-                criteria_type = ((IClrObject)ftype).ClrObject as Type;
-                using (var method = details["method"] as LuaString)
-                using (var instance = details["instance"] as LuaBoolean)
-                using (var @public = details["public"] as LuaBoolean)
-                using (var returns = details["returns"] as LuaBoolean)
-                using (var args = details["args"] as LuaTable) {
-                    if (method == null) throw new LuaException("method: Expected string, got null");
-
-                    if (args != null) {
-                        var count = 0;
-                        while (true) {
-                            using (var value = args[count + 1]) {
-                                if (value is LuaNil) break;
-                                if (!(value is IClrObject)) {
-                                    throw new LuaException($"args: Expected entry at index {count} to be a CLR Type object, got non-CLR object of type {value.GetType()}");
-                                } else if (!(((IClrObject)value).ClrObject is Type)) {
-                                    throw new LuaException($"args: Expected entry at index {count} to be a CLR Type object, got CLR object of type {((IClrObject)value).ClrObject.GetType()}");
-                                }
-                            }
-                            count += 1;
-                        }
-
-                        var argtypes = new Type[args.Count];
-
-                        for (int i = 1; i <= count; i++) {
-                            using (var value = args[i]) {
-                                argtypes[i - 1] = (Type)args[i].CLRMappedObject;
-                            }
-                        }
-
-                        criteria_argtypes = argtypes;
-                    }
-
-                    criteria_instance = instance?.ToBoolean() ?? true;
-                    criteria_public = @public?.ToBoolean() ?? true;
-                    criteria_methodname = method.ToString();
-
-                    hook_returns = returns?.ToBoolean() ?? false;
-                }
+            lua.GetField("type");
+            if (lua.Type() == LuaType.Nil) {
+                lua.LeaveAreaCleanup();
+                throw new LuaException($"type: Expected Type, got null");
+            } else if (!lua.IsCLRObject()) {
+                lua.LeaveAreaCleanup();
+                throw new LuaException($"type: Expected CLR Type object, got non-MicroLua userdata");
             }
+            var obj = lua.ToCLR();
+            if (!(obj is Type)) {
+                lua.Pop();
+                throw new LuaException($"type: Expected CLR Type object, got CLR object of type {obj.GetType()}");
+            }
+            criteria_type = obj as Type;
+            lua.Pop();
+
+            string method = null;
+
+            lua.GetField("method");
+            if (lua.Type() == LuaType.String) criteria_methodname = lua.ToString();
+            lua.Pop();
+
+            lua.GetField("instance");
+            if (lua.Type() == LuaType.Boolean) criteria_instance = lua.ToBool();
+            lua.Pop();
+
+            lua.GetField("public");
+            if (lua.Type() == LuaType.Boolean) criteria_public = lua.ToBool();
+            lua.Pop();
+
+            lua.GetField("returns");
+            if (lua.Type() == LuaType.Boolean) hook_returns = lua.ToBool();
+            lua.Pop();
+
+            lua.GetField("args");
+            if (lua.Type() == LuaType.Table) {
+                var count = 0;
+                while (true) {
+                    lua.PushInt(count + 1);
+                    lua.GetField();
+                    if (lua.Type() == LuaType.Nil) {
+                        lua.Pop();
+                        break;
+                    }
+                    if (!lua.IsCLRObject()) {
+                        lua.LeaveAreaCleanup();
+                        throw new LuaException($"args: Expected entry at index {count + 1} to be a CLR Type object, got non-CLR userdata");
+                    }
+                    var argobj = lua.ToCLR();
+                    if (!(argobj is Type)) {
+                        lua.LeaveAreaCleanup();
+                        throw new LuaException($"args: Expected entry at index {count + 1} to be a CLR Type object, got CLR object of type {argobj.GetType()}");
+                    }
+                    lua.Pop();
+                    count += 1;
+                }
+
+                var argtypes = new Type[count];
+
+                for (int i = 1; i <= count; i++) {
+                    lua.PushInt(i);
+                    lua.GetField();
+                    argtypes[i - 1] = lua.ToCLR<Type>();
+                    lua.Pop();
+                }
+
+                criteria_argtypes = argtypes;
+            }
+            lua.Pop();
+
+            lua.Pop();
 
             var method_info = _TryFindMethod(
                 criteria_type,
@@ -144,20 +170,24 @@ namespace ETGMod.Lua {
 
             var token = RuntimeHooks.MethodToken(method_info);
             Hooks[token] = fn;
-            fn.DisposeAfterManagedCall = false;
 
             if (hook_returns) {
                 HookReturns[token] = method_info.ReturnType;
             }
 
             _Logger.Debug($"Added Lua hook for method '{criteria_methodname}' ({token})");
+
+            lua.LeaveArea();
         }
 
-        internal object TryRun(LuaRuntime runtime, long token, object target, object[] args, out bool returned) {
+        internal object TryRun(LuaState lua, long token, object target, object[] args, out bool returned) {
             _Logger.Debug($"Trying to run method hook (token {token})");
             returned = false;
 
             object return_value = null;
+
+            // TODO TODO TODO
+            // CONTINUE THIS
 
             LuaFunction fun;
             if (Hooks.TryGetValue(token, out fun)) {

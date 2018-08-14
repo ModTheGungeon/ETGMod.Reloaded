@@ -1,39 +1,39 @@
 ﻿using System;
 using UnityEngine;
-using Eluant;
+using MicroLua;
 
 namespace ETGMod.Lua {
     public class TriggerContainer : IDisposable {
         public ModLoader.ModInfo Info;
        
-        public LuaFunction MainMenuLoadedFirstTime;
-        public LuaFunction Unloaded;
+        public int MainMenuLoadedFirstTimeRef = 0;
+        public int UnloadedRef = 0;
 
         private Action<MainMenuFoyerController> _MainMenuLoadedFirstTime;
 
-        private void _Trigger(LuaTable triggers, string name, ref LuaFunction func) {
-            var v = triggers[name];
-            if (v != null) {
-                if (v is LuaFunction) {
-                    func = v as LuaFunction;
-                } else {
-                    v.Dispose();
+        private void _Trigger(LuaState lua, string name, ref int func) {
+            lua.GetField(name);
+            if (lua.Type() != LuaType.Nil) {
+                if (lua.Type() == LuaType.Function) {
+                    func = lua.MakeLuaReference();
                 }
             }
+            lua.Pop();
         }
 
-        public TriggerContainer(LuaTable env, ModLoader.ModInfo info) {
-            Info = info;
+        public TriggerContainer(int env_ref, ModLoader.ModInfo info) {
+            var lua = ETGMod.ModLoader.LuaState;
 
-            using (var triggers = env["Triggers"] as LuaTable) {
-                _Trigger(triggers, "MainMenuLoadedFirstTime", ref MainMenuLoadedFirstTime);
-                _Trigger(triggers, "Unloaded", ref Unloaded);
-            }
+            Info = info;
+            lua.PushLuaReference(env_ref);
+            _Trigger(lua, "MainMenuLoadedFirstTime", ref MainMenuLoadedFirstTimeRef);
+            _Trigger(lua, "Unloaded", ref UnloadedRef);
+            lua.Pop();
         }
 
         public void Dispose() {
-            MainMenuLoadedFirstTime?.Dispose();
-            Unloaded?.Dispose();
+            ETGMod.ModLoader.LuaState.DeleteLuaReference(MainMenuLoadedFirstTimeRef);
+            ETGMod.ModLoader.LuaState.DeleteLuaReference(UnloadedRef);
 
             RemoveExternalHooks();
         }
@@ -45,9 +45,9 @@ namespace ETGMod.Lua {
         }
 
         public void SetupExternalHooks() {
-            if (MainMenuLoadedFirstTime != null && _MainMenuLoadedFirstTime == null) {
+            if (MainMenuLoadedFirstTimeRef != -1 && _MainMenuLoadedFirstTime == null) {
                 _MainMenuLoadedFirstTime = (main_menu) => {
-                    Info.RunLua(MainMenuLoadedFirstTime, "Events.MainMenuLoadedFirstTime", new LuaTransparentClrObject(main_menu, autobind: true));
+                    Info.RunLua(MainMenuLoadedFirstTimeRef, "Events.MainMenuLoadedFirstTime", new object[] { main_menu });
                 };
                 EventHooks.MainMenuLoadedFirstTime += _MainMenuLoadedFirstTime;
             }

@@ -8,7 +8,7 @@ using YamlDotNet.Serialization;
 using Mono.Cecil;
 using System.Security.Cryptography;
 using System.Linq;
-using Eluant;
+using MicroLua;
 using ETGMod.Lua;
 
 namespace ETGMod {
@@ -19,7 +19,7 @@ namespace ETGMod {
 
         const string METADATA_FILE_NAME = "mod.yml";
 
-        public LuaRuntime LuaState { get; internal set; }
+        public LuaState LuaState { get; internal set; }
 
         public Deserializer Deserializer = new DeserializerBuilder().Build();
         public string CachePath;
@@ -78,53 +78,56 @@ namespace ETGMod {
             RefreshLuaState();
         }
 
-        private LuaTable _CreateNewEnvironment(ModInfo info) {
-            var f = LuaState.CompileFile(Path.Combine(Paths.ResourcesFolder, "lua/env.lua"));
+        private int _CreateNewEnvironment(ModInfo info) {
+            LuaState.EnterArea();
 
-            LuaState.Globals["MOD"] = new LuaTransparentClrObject(info, autobind: true);
+            LuaState.PushCLR(info);
+            LuaState.SetGlobal("MOD");
 
-            string prev_path;
-            using (var t = LuaState.Globals["package"] as LuaTable) {
-                prev_path = t["path"].ToString();
-                t["path"] = Path.Combine(Paths.ResourcesFolder, "lua/?.lua");
-            }
+            LuaState.GetGlobal("package");
+            LuaState.GetField("path");
+            var prev_path = LuaState.ToString();
+            LuaState.Pop();
+            LuaState.PushString(Path.Combine(Paths.ResourcesFolder, "lua/?.lua"));
+            LuaState.SetField("path");
+            LuaState.Pop();
 
-            LuaTable env;
-            var ret = f.Call();
+            LuaState.BeginProtCall();
+            LuaState.LoadFile(Path.Combine(Paths.ResourcesFolder, "lua/env.lua"));
+            LuaState.ExecProtCall(0, cleanup: true);
 
-            if (ret.Count == 1) Logger.Debug($"Ran env.lua, got an environment");
-            else if (ret.Count == 0) Logger.Error($"env.lua did not return anything", @throw: true);
-            else Logger.Warn($"env.lua returned more than 1 result");
+            var env_ref = LuaState.MakeLuaReference();
+            LuaState.Pop();
 
-            using (var t = LuaState.Globals["package"] as LuaTable) {
-                t["path"] = prev_path;
-            }
+            LuaState.GetGlobal("package");
+            LuaState.PushString(prev_path);
+            LuaState.SetField("path");
+            LuaState.Pop();
 
-            LuaState.Globals["MOD"] = null;
+            LuaState.PushNil();
+            LuaState.SetGlobal("MOD");
 
-            env = ret[0] as LuaTable;
-            if (ret.Count > 1) {
-                for (int i = 1; i < ret.Count; i++) {
-                    ret[i].Dispose();
-                }
-            }
-
-            return env;
+            LuaState.LeaveArea();
+            return env_ref;
         }
 
-        private void _SetupSandbox(LuaTable env) {
-            using (var sandbox = LuaState.CompileFile(Path.Combine(Paths.ResourcesFolder, "lua/sandbox.lua"))) {
-                sandbox.Call(env).Dispose();
-            }
+        private void _SetupSandbox(int env_ref) {
+            LuaState.EnterArea();
+
+            LuaState.BeginProtCall();
+            LuaState.BeginProtCall();
+            LuaState.LoadFile(Path.Combine(Paths.ResourcesFolder, "lua/sandbox.lua"));
+            LuaState.ExecProtCall(0, cleanup: true);
+            LuaState.PushLuaReference(env_ref);
+            LuaState.ExecProtCall(1, cleanup: true);
+
+            LuaState.LeaveAreaCleanup();
         }
 
         internal void RefreshLuaState() {
             if (LuaState != null) LuaState.Dispose();
-            LuaState = new LuaRuntime();
-            LuaState.MonoStackTraceWorkaround = true;
-            // The version of Unity that Gungeon uses uses Mono 2.6.5, released in 2009
-            // Read the comment on MonoStackTraceWorkaround to learn more
-            LuaState.InitializeClrPackage();
+            LuaState = new LuaState();
+            LuaState.LoadInteropLibrary();
         }
 
         public ModInfo Load(string path) {
@@ -162,20 +165,22 @@ namespace ETGMod {
             }
 
             PostLoadMod.Invoke(mod);
-                
+
             if (!mod.IsComplete) throw new InvalidOperationException($"Tried to return incomplete ModInfo when loading {path}");
             return mod;
         }
 
-        private static Action<LuaTable, string, LuaValue> _FakePackageNewindex = (self, key, value) => {
+        private static object _FakePackageNewIndex(LuaState lua) {
             throw new LuaException("I'm sorry, Dave.");
-        };
+        }
 
-        private static Func<LuaTable, string> _FakePackageMetatable = (self) => {
+        private static object _FakePackageMetatable(LuaState lua) {
             return "I'm afraid I can't let you do that.";
-        };
+        }
 
         private void _RunModScript(ModInfo info, ModInfo parent = null) {
+            LuaState.EnterArea();
+
             info.ScriptPath = Path.Combine(info.RealPath, info.ModMetadata.Script);
             Logger.Info($"Running Lua script at '{info.ScriptPath}'");
 
@@ -183,51 +188,57 @@ namespace ETGMod {
 
             info.Hooks = new HookManager();
 
-            var env = _CreateNewEnvironment(info);
+            var env_ref = _CreateNewEnvironment(info);
 
+            LuaState.LoadFile(info.ScriptPath);
+            var mod_func_ref = LuaState.MakeLuaReference();
 
-            using (var func = LuaState.CompileFile(info.ScriptPath)) {
-                info.RealPackageTable = LuaState.CreateTable();
+            LuaState.PushNewTable();
+            info.RealPackageTableRef = LuaState.MakeLuaReference();
+            LuaState.Pop();
 
-                using (var fake_package = LuaState.CreateTable())
-                using (var mt = LuaState.CreateTable()) {
-                    func.Environment = env;
+            LuaState.PushLuaReference(mod_func_ref);
+            LuaState.PushLuaReference(env_ref);
+            LuaState.SetEnvironment();
+            LuaState.Pop();
 
-                    /* Setup the metatable */
-                    Func<LuaTable, string, LuaValue> fake_package_index = (self, key) => {
-                        return info.RealPackageTable[key];
-                    };
+            // Setup the metatable
+            LuaCLRFunction fake_package_index = (lua) => {
+                lua.PushLuaReference(info.RealPackageTableRef);
+                lua.PushValue(2);
+                lua.GetField();
+                var val = lua.ToCLR();
+                lua.Pop();
+                return val;
+            };
 
-                    using (var index = LuaState.CreateFunctionFromDelegate(fake_package_index)) {
-                        mt["__index"] = index;
-                    }
+            LuaState.PushNewTable(); // fake package
+            LuaState.PushNewTable(); // mt
+            LuaState.PushLuaCLRFunction(fake_package_index);
+            LuaState.SetField("__index");
+            LuaState.PushLuaCLRFunction(_FakePackageNewIndex);
+            LuaState.SetField("__newindex");
+            LuaState.PushLuaCLRFunction(_FakePackageMetatable);
+            LuaState.SetField("__metatable");
+            LuaState.SetMetatable(); // setmetatable(fake_package, mt)
+            LuaState.Pop(); // pop fake_package
 
-                    using (var newindex = LuaState.CreateFunctionFromDelegate(_FakePackageNewindex)) {
-                        mt["__newindex"] = newindex;
-                    }
+            LuaState.PushLuaReference(info.RealPackageTableRef);
+            LuaState.PushNewTable();
+            LuaState.SetField("loaded");
+            LuaState.PushString(Path.Combine(Paths.ResourcesFolder, "lua/libs/?.lua") + ";" + Path.Combine(Paths.ResourcesFolder, "lua/libs/?/init.lua") + ";" + Path.Combine(Paths.ResourcesFolder, "lua/libs/?/?.lua") + ";" + info.RealPath + "/?.lua");
+            LuaState.SetField("path");
+            LuaState.PushString("Really makes you think");
+            LuaState.SetField("cpath");
+            LuaState.SetGlobal("package");
 
-                    using (var metatable = LuaState.CreateFunctionFromDelegate(_FakePackageMetatable)) {
-                        mt["__metatable"] = metatable;
-                    }
+            info.LuaEnvironmentRef = env_ref;
+            info.RunLua(mod_func_ref, "the main script");
 
-                    fake_package.Metatable = mt;
+            info.Triggers = new TriggerContainer(info.LuaEnvironmentRef, info);
+            info.Triggers.SetupExternalHooks();
 
-                    /* Setup the real package table */
-                    using (var loaded = LuaState.CreateTable()) info.RealPackageTable["loaded"] = loaded;
-                    info.RealPackageTable["path"] = Path.Combine(Paths.ResourcesFolder, "lua/libs/?.lua") + ";" + Path.Combine(Paths.ResourcesFolder, "lua/libs/?/init.lua") + ";" + Path.Combine(Paths.ResourcesFolder, "lua/libs/?/?.lua") + ";" + info.RealPath + "/?.lua";
-                    info.RealPackageTable["cpath"] = "Really makes you think";
-
-                    /* Add the fake package with a locked metatable to the env */
-                    env["package"] = fake_package;
-
-                }
-
-                info.LuaEnvironment = env;
-                info.RunLua(func, "the main script");
-
-                info.Triggers = new TriggerContainer(info.LuaEnvironment, info);
-                info.Triggers.SetupExternalHooks();
-            }
+            LuaState.LeaveArea();
         }
 
         private string _HashPath(string path) {

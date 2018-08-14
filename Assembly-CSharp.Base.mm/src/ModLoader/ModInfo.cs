@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using ETGMod.Lua;
-using Eluant;
+using MicroLua;
 
 namespace ETGMod {
     public partial class ModLoader {
@@ -27,8 +27,8 @@ namespace ETGMod {
                 internal set;
             } = new List<ModInfo>();
 
-            public LuaTable LuaEnvironment;
-            internal LuaTable RealPackageTable;
+            public int LuaEnvironmentRef;
+            internal int RealPackageTableRef;
 
             public TriggerContainer Triggers;
             public HookManager Hooks;
@@ -79,35 +79,30 @@ namespace ETGMod {
                 }
             }
 
-            public LuaVararg RunLua(LuaFunction func, string name = "[unknown]", params LuaValue[] args) {
-                LuaVararg ret = null;
+            public void RunLua(int func_ref, string name = "[unknown]", object[] args = null) {
+                var lua = ETGMod.ModLoader.LuaState;
 
                 try {
-                    func.Environment = LuaEnvironment;
-
-                    ret = func.Call(args);
-                } catch (Exception e) {
-                    ETGMod.ModLoader.LuaError.Invoke(this, LuaEventMethod.Loaded, e);
-                    Logger.Error(e.Message);
-
-                    if (e is LuaException) {
-                        for (int i = 0; i < ((LuaException)e).TracebackArray.Length; i++) {
-                            Logger.ErrorIndent("  " + ((LuaException)e).TracebackArray[i]);
-                        }
-                    } else {
-                        var lines = e.StackTrace.Split('\n');
-                        for (int i = 0; i < lines.Length; i++) {
-                            Logger.ErrorIndent(lines[i]);
+                    lua.BeginProtCall();
+                    lua.PushLuaReference(func_ref);
+                    lua.PushLuaReference(LuaEnvironmentRef);
+                    lua.SetEnvironment();
+                    if (args != null) {
+                        for (int i = 0; i < args.Length; i++) {
+                            lua.PushCLR(args);
                         }
                     }
-                }
+                    lua.ExecProtCall(args?.Length ?? 0);
+                } catch (Exception e) {
+                    ETGMod.ModLoader.LuaError.Invoke(this, LuaEventMethod.Loaded, e);
 
-                return ret;
+                    Logger.Error(e.ToString());
+                }
             }
 
             public void Dispose() {
-                LuaEnvironment?.Dispose();
-                RealPackageTable?.Dispose();
+                ETGMod.ModLoader.LuaState.DeleteLuaReference(LuaEnvironmentRef);
+                ETGMod.ModLoader.LuaState.DeleteLuaReference(RealPackageTableRef);
                 Triggers?.Dispose();
                 Hooks?.Dispose();
             }

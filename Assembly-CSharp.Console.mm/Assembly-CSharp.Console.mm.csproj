@@ -74,9 +74,9 @@
       <Project>{34E81F62-F88C-44EF-96D9-DBBD2C46DF34}</Project>
       <Name>Assembly-CSharp.Base.mm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libs\Eluant\Eluant\Eluant.csproj">
-      <Project>{D4CFD952-4EDC-421D-84A5-998688815124}</Project>
-      <Name>Eluant</Name>
+    <ProjectReference Include="..\libs\MicroLua\MicroLua\MicroLua.csproj">
+      <Project>{0FE03B01-70EF-4306-9E5F-52F4C2C8C97A}</Project>
+      <Name>MicroLua</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
