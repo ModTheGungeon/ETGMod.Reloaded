@@ -267,24 +267,6 @@ namespace ETGMod.Console {
                 return args[0];
             });
 
-            AddCommand("exec", (args) => {
-                var script = args[0];
-                try {
-                    var result = ETGMod.ModLoader.LuaState.DoString(script);
-                    string output = "[?]";
-                    if (result.Count > 0) {
-                        var b = new StringBuilder();
-                        foreach (var r in result) {
-                            b.AppendLine(r.ToString());
-                        }
-                        output = b.ToString();
-                    } else output = "[ok]";
-                    return output;
-                } catch (Eluant.LuaException e) {
-                    return e.ToString();
-                }
-            });
-
             AddGroup("dump")
                 .WithSubCommand("synergy_chest", (args) => {
                     System.Console.WriteLine(ObjectDumper.Dump(GameManager.Instance.RewardManager.Synergy_Chest, depth: 10));

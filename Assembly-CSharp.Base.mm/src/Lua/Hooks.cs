@@ -182,6 +182,7 @@ namespace ETGMod.Lua {
 
         internal object TryRun(LuaState lua, long token, object target, object[] args, out bool returned) {
             _Logger.Debug($"Trying to run method hook (token {token})");
+            lua.EnterArea();
             returned = false;
 
             object return_value = null;
@@ -189,41 +190,40 @@ namespace ETGMod.Lua {
             // TODO TODO TODO
             // CONTINUE THIS
 
-            LuaFunction fun;
-            if (Hooks.TryGetValue(token, out fun)) {
+            int fun_ref;
+            if (Hooks.TryGetValue(token, out fun_ref)) {
                 _Logger.Debug($"Hook found");
                 // target == null --> static
 
                 var objs_offs = 1;
                 if (target == null) objs_offs = 0;
 
-                var objs = new LuaValue[args.Length + objs_offs];
-                if (target != null) objs[0] = runtime.AsLuaValue(target);
-                for (int i = 0; i < args.Length; i++) {
-                    objs[i + objs_offs] = runtime.AsLuaValue(args[i]);
+                lua.BeginProtCall();
+                lua.PushLuaReference(fun_ref);
+                var lua_args_len = args.Length;
+                if (target != null) {
+                    lua.PushCLR(target);
+                    lua_args_len += 1;
                 }
-
-                var result = fun.Call(args: objs);
+                for (int i = 0; i < args.Length; i++) {
+                    lua.PushCLR(args[i]);
+                }
+                var top = lua.StackTop;
+                lua.ExecProtCall(lua_args_len);
+                var results_len = lua.StackTop - top;
 
                 Type return_type;
                 if (HookReturns.TryGetValue(token, out return_type)) {
-                    if (result.Count > 1) {
-                        for (int i = 1; i < result.Count; i++) result[i].Dispose();
-                    }
-
-                    if (result.Count > 0) {
+                    if (results_len > 0) {
                         returned = true;
-                        return_value = runtime.ToClrObject(result[0], return_type);
+                        return_value = lua.ToCLR();
 
-                        if (return_value != result[0]) result[0].Dispose();
+                        lua.Pop(results_len);
                     }
-                } else {
-                    result.Dispose();
                 }
-
-                for (int i = 0; i < objs.Length; i++) objs[i]?.Dispose();
             } else _Logger.Debug($"Hook not found");
 
+            lua.LeaveArea();
             return return_value;
         }
     }

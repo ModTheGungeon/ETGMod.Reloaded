@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using Eluant;
+using MicroLua;
 
 namespace ETGMod.Lua {
     public static class LuaTool {

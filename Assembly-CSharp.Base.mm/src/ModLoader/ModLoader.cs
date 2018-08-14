@@ -339,7 +339,7 @@ namespace ETGMod {
             Logger.Info($"Unloading mod {info.Name}");
             if (info.HasScript) {
                 try {
-                    info.Triggers?.Unloaded?.Call();
+                    info.Triggers.InvokeUnloaded();
                 } catch (LuaException e) {
                     Logger.Error(e.Message);
                     LuaError.Invoke(info, LuaEventMethod.Unloaded, e);

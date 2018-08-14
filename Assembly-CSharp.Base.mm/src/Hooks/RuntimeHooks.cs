@@ -6,7 +6,7 @@ using TrampolineMap = System.Collections.Generic.Dictionary<long, System.Reflect
 using System.Reflection.Emit;
 using System.Linq.Expressions;
 using MonoMod.Detour;
-using Eluant;
+using MicroLua;
 
 namespace ETGMod {
     public class RuntimeHooks {
@@ -107,17 +107,17 @@ namespace ETGMod {
             _Logger.Debug($"Installed dispatch handler for {method.Name} (token {method_token})");
         }
 
-        private static object _RunLuaHook(ModLoader.ModInfo mod, LuaRuntime runtime, long method_token, object target, object[] args, out bool returned) {
+        private static object _RunLuaHook(ModLoader.ModInfo mod, LuaState lua, long method_token, object target, object[] args, out bool returned) {
             returned = false;
 
             if (mod.Hooks != null) {
                 _Logger.Debug($"Running hook '{method_token}' in mod {mod.Name}");
-                var obj = mod.Hooks.TryRun(runtime, method_token, target, args, out returned);
+                var obj = mod.Hooks.TryRun(lua, method_token, target, args, out returned);
                 if (returned) return obj;
             }
             if (mod.HasAnyEmbeddedMods) {
                 for (int i = 0; i < mod.EmbeddedMods.Count; i++) {
-                    var obj = _RunLuaHook(mod.EmbeddedMods[i], runtime, method_token, target, args, out returned);
+                    var obj = _RunLuaHook(mod.EmbeddedMods[i], lua, method_token, target, args, out returned);
                     if (returned) return obj;
                 }
             }

@@ -6,10 +6,22 @@ namespace ETGMod.Lua {
     public class TriggerContainer : IDisposable {
         public ModLoader.ModInfo Info;
        
-        public int MainMenuLoadedFirstTimeRef = 0;
-        public int UnloadedRef = 0;
+        public int MainMenuLoadedFirstTimeRef = -1;
+        public int UnloadedRef = -1;
 
         private Action<MainMenuFoyerController> _MainMenuLoadedFirstTime;
+
+        public void InvokeUnloaded() {
+            ETGMod.ModLoader.LuaState.BeginProtCall();
+            ETGMod.ModLoader.LuaState.PushLuaReference(UnloadedRef);
+            ETGMod.ModLoader.LuaState.ExecProtCallVoid(0, cleanup: true);
+        }
+
+        public void InvokeMainMenuLoadedFirstTime() {
+            ETGMod.ModLoader.LuaState.BeginProtCall();
+            ETGMod.ModLoader.LuaState.PushLuaReference(MainMenuLoadedFirstTimeRef);
+            ETGMod.ModLoader.LuaState.ExecProtCallVoid(0, cleanup: true);
+        }
 
         private void _Trigger(LuaState lua, string name, ref int func) {
             lua.GetField(name);
