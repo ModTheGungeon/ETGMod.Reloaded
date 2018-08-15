@@ -16,7 +16,7 @@ namespace ETGMod {
 #if DEBUG
         public static string VersionTag = "beta1";
 #elif RELEASE
-        public static string VersionTag = "";
+        public static string VersionTag = "beta1-dbg";
 #endif
 
         public override string StringVersion {
