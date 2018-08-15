@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp.Console.mm"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp.GUI.mm", "Assembly-CSharp.GUI.mm\Assembly-CSharp.GUI.mm.csproj", "{BA34AC90-F2B8-445E-A780-873F7321D975}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eluant", "libs\Eluant\Eluant\Eluant.csproj", "{D4CFD952-4EDC-421D-84A5-998688815124}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "libs\Logger\Logger.csproj", "{1C734127-AC83-4ECB-ABCA-32B98DFE49C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroLua", "libs\MicroLua\MicroLua\MicroLua.csproj", "{0FE03B01-70EF-4306-9E5F-52F4C2C8C97A}"

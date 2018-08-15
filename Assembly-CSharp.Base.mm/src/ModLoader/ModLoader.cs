@@ -170,12 +170,13 @@ namespace ETGMod {
             return mod;
         }
 
-        private static object _FakePackageNewIndex(LuaState lua) {
+        private static int _FakePackageNewIndex(LuaState lua) {
             throw new LuaException("I'm sorry, Dave.");
         }
 
-        private static object _FakePackageMetatable(LuaState lua) {
-            return "I'm afraid I can't let you do that.";
+        private static int _FakePackageMetatable(LuaState lua) {
+            lua.PushString("I'm afraid I can't let you do that.");
+            return 1;
         }
 
         private void _RunModScript(ModInfo info, ModInfo parent = null) {
@@ -207,9 +208,7 @@ namespace ETGMod {
                 lua.PushLuaReference(info.RealPackageTableRef);
                 lua.PushValue(2);
                 lua.GetField();
-                var val = lua.ToCLR();
-                lua.Pop();
-                return val;
+                return 1;
             };
 
             LuaState.PushNewTable(); // fake package
@@ -238,7 +237,7 @@ namespace ETGMod {
             info.Triggers = new TriggerContainer(info.LuaEnvironmentRef, info);
             info.Triggers.SetupExternalHooks();
 
-            LuaState.LeaveArea();
+            LuaState.LeaveAreaCleanup(); // I am lazy
         }
 
         private string _HashPath(string path) {

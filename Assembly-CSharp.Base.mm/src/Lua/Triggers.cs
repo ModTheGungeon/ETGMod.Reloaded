@@ -12,15 +12,23 @@ namespace ETGMod.Lua {
         private Action<MainMenuFoyerController> _MainMenuLoadedFirstTime;
 
         public void InvokeUnloaded() {
+            if (UnloadedRef == -1) return;
+
+            ETGMod.ModLoader.LuaState.EnterArea();
             ETGMod.ModLoader.LuaState.BeginProtCall();
             ETGMod.ModLoader.LuaState.PushLuaReference(UnloadedRef);
             ETGMod.ModLoader.LuaState.ExecProtCallVoid(0, cleanup: true);
+            ETGMod.ModLoader.LuaState.LeaveAreaCleanup();
         }
 
         public void InvokeMainMenuLoadedFirstTime() {
+            if (MainMenuLoadedFirstTimeRef == -1) return;
+
+            ETGMod.ModLoader.LuaState.EnterArea();
             ETGMod.ModLoader.LuaState.BeginProtCall();
             ETGMod.ModLoader.LuaState.PushLuaReference(MainMenuLoadedFirstTimeRef);
             ETGMod.ModLoader.LuaState.ExecProtCallVoid(0, cleanup: true);
+            ETGMod.ModLoader.LuaState.LeaveAreaCleanup();
         }
 
         private void _Trigger(LuaState lua, string name, ref int func) {

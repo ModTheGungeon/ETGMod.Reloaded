@@ -82,7 +82,7 @@ return function(env)
     sort = table.sort
   }
 
-  local system = clr.namespace(clr.assembly('mscorlib'), 'System')
+  local system = interop.namespace(interop.assembly('mscorlib'), 'System')
   local rng = system.Random()
 
   env.math = {
@@ -136,13 +136,13 @@ return function(env)
     time = os.time,
   }
 
-  env.clr = {
+  env.interop = {
     -- assembly = clr.assembly,
-    type = clr.type,
-    namespace = clr.namespace,
-    metatype = clr.metatype,
-    statictype = clr.statictype,
-    unrestricted = clr.unrestricted
+    type = interop.type,
+    namespace = interop.namespace,
+    --metatype = clr.metatype,
+    --statictype = clr.statictype,
+    --unrestricted = clr.unrestricted
   }
 
   local _require = require

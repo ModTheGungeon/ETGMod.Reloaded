@@ -82,6 +82,8 @@ namespace ETGMod {
             public void RunLua(int func_ref, string name = "[unknown]", object[] args = null) {
                 var lua = ETGMod.ModLoader.LuaState;
 
+                lua.EnterArea();
+
                 try {
                     lua.BeginProtCall();
                     lua.PushLuaReference(func_ref);
@@ -97,6 +99,8 @@ namespace ETGMod {
                     ETGMod.ModLoader.LuaError.Invoke(this, LuaEventMethod.Loaded, e);
 
                     Logger.Error(e.ToString());
+                } finally {
+                    lua.LeaveAreaCleanup(); // I'm lazy
                 }
             }
 

@@ -13,29 +13,29 @@ local env = {
   Assemblies = {}
 }
 
-local gungeon = clr.assembly "Assembly-CSharp"
-local unity = clr.assembly "UnityEngine"
+local gungeon = interop.assembly "Assembly-CSharp"
+local unity = interop.assembly "UnityEngine"
 
 env.Assemblies.Gungeon = gungeon;
 env.Assemblies.UnityEngine = unity;
-env.Assemblies.System = clr.assembly "System";
-env.Assemblies.Mscorlib = clr.assembly "mscorlib";
+env.Assemblies.System = interop.assembly "System";
+env.Assemblies.Mscorlib = interop.assembly "mscorlib";
 
-local ns_etgmod = clr.namespace(gungeon, 'ETGMod')
+local ns_etgmod = interop.namespace(gungeon, 'ETGMod')
 local function namespace(ass, name, tab)
   return setmetatable(tab, {
-    __index = clr.namespace(ass, name)
+    __index = interop.namespace(ass, name)
   })
 end
 
-local _GAME = namespace(gungeon, "", {
+local _GAME = namespace(gungeon, "-", {
   ETGMod = namespace(gungeon, "ETGMod", {
-    GUI = clr.namespace(gungeon, 'ETGMod.GUI'),
-    Lua = clr.namespace(gungeon, 'ETGMod.Lua'),
+    GUI = interop.namespace(gungeon, 'ETGMod.GUI'),
+    Lua = interop.namespace(gungeon, 'ETGMod.Lua'),
     Console = namespace(gungeon, "ETGMod.Console", {
-      Parser = clr.namespace(gungeon, 'ETGMod.Console')
+      Parser = interop.namespace(gungeon, 'ETGMod.Console')
     }),
-    TexMod = clr.namespace(gungeon, 'ETGMod.TexMod')
+    TexMod = interop.namespace(gungeon, 'ETGMod.TexMod')
   })
 })
 env._GAME = _GAME
@@ -44,7 +44,7 @@ env._GAME = _GAME
 --   env[k] = v
 -- end
 
-local lua = clr.namespace(gungeon, 'ETGMod.Lua')
+local lua = interop.namespace(gungeon, 'ETGMod.Lua')
 env = setmetatable(env, {
   __index = function(self, k)
     if k == "PrimaryPlayer" then
@@ -55,8 +55,8 @@ env = setmetatable(env, {
   end
 })
 
-local gui = clr.namespace(gungeon, 'ETGMod.GUI')
-local etgmod = clr.namespace(gungeon, 'ETGMod')
+local gui = interop.namespace(gungeon, 'ETGMod.GUI')
+local etgmod = interop.namespace(gungeon, 'ETGMod')
 
 function env.Color(r, g, b, a)
   if a == nil then
