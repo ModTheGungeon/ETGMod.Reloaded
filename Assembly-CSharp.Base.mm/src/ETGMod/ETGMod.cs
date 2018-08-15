@@ -14,9 +14,9 @@ namespace ETGMod {
         public static Logger Logger = new Logger("ETGMod");
 
 #if DEBUG
-        public static string VersionTag = "beta1-db";
+        public static string VersionTag = "beta2-dbg";
 #else
-        public static string VersionTag = "beta1";
+        public static string VersionTag = "beta2";
 #endif
 
         public override string StringVersion {
