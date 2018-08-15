@@ -24,10 +24,12 @@ if exist C:\Program Files\7-Zip\7z.exe (
 
 :: Prepare the target
 set target=Debug
+set target_unsigned=Debug
 if %1.==release. goto _if_setrelease
 goto _ifj_setrelease
 :_if_setrelease
 set target=Release
+set target_unsigned=Release-Unsigned
 :_ifj_setrelease
 
 :: Prepare the build directory
@@ -53,7 +55,8 @@ for /f "tokens=*" %%L in (build-files) do (
   set "line=%%L"
   set "line=!line:/=\!"
   if not "!line:~0,1!"=="#" (
-    set "file=!line:{TARGET}=%target%!"
+    set "file_ex=!line:{TARGET}=%target%!"
+    set "file=!file_ex:{TARGET-UNSIGNED}=%target_unsigned%!"
     for %%f in (!file!) do set target=%%~nxf
       rem
 

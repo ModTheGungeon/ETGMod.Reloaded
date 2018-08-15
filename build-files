@@ -1,6 +1,6 @@
 # external
 libs/Ionic.Zip.dll
-libs/YamlDotNet/YamlDotNet/bin/{TARGET}/YamlDotNet.dll
+libs/YamlDotNet/YamlDotNet/bin/{TARGET-UNSIGNED}/YamlDotNet.dll
 libs/MonoMod/bin/{TARGET}/MonoMod.exe
 libs/MonoMod/packages/Mono.Cecil.0.10.0-beta5/lib/net35/Mono.Cecil.dll
 libs/MonoMod/packages/Mono.Cecil.0.10.0-beta5/lib/net35/Mono.Cecil.Mdb.dll

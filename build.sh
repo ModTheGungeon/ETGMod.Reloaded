@@ -2,8 +2,10 @@
 set -e
 
 TARGET="Debug"
+TARGET_UNSIGNED="$TARGET"
 if [ "$1" = "release" ]; then
   TARGET="Release"
+  TARGET_UNSIGNED="Release-Unsigned"
 fi
 
 BUILD_BASE="build"
@@ -15,13 +17,13 @@ BUILD_ZIP="$BUILD_BASE/$BUILD_ETGMOD.zip"
 rm -rf $BUILD_BASE
 mkdir -p $BUILD
 
-xbuild
+xbuild /p:Configuration=$TARGET
 
 deps=()
 
 while read line; do
   if [[ "$line" == "#"* ]]; then continue; fi
-  deps+=("$(echo "$line" | sed "s/{TARGET}/$TARGET/")")
+  deps+=("$(echo "$line" | sed -e "s/{TARGET}/$TARGET/" -e "s/{TARGET-UNSIGNED}/$TARGET_UNSIGNED/")")
 done < build-files
 
 echo "${deps[@]}"
