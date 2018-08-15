@@ -6,7 +6,7 @@ using UnityEngine;
 namespace ETGMod {
     public partial class ETGMod : Backend {
         public const KeyCode MOD_RELOAD_KEY = KeyCode.F5;
-        public override Version Version { get { return new Version(0, 3, 0); } }
+        public override Version Version { get { return new Version(0, 1, 0); } }
 
         public static bool AutoReloadMods = true;
         private static bool _ShouldAutoReload = false;
@@ -14,7 +14,7 @@ namespace ETGMod {
         public static Logger Logger = new Logger("ETGMod");
 
 #if DEBUG
-        public static string VersionTag = "DEBUG";
+        public static string VersionTag = "beta1";
 #elif RELEASE
         public static string VersionTag = "";
 #endif
