@@ -117,7 +117,11 @@ namespace ETGMod.Console {
                         OnSubmit = (elem, text) => {
                             if (text.Trim().Length == 0) return;
                             Console.Instance.History.Push();
-                            Console.Instance.ExecuteCommandAndPrintResult(text);
+                            if (Console.Instance.LuaMode) {
+                                Console.Instance.ExecuteLuaAndPrintResult(text);
+                            } else {
+                                Console.Instance.ExecuteCommandAndPrintResult(text);
+                            }
                         }
                     }
                 }

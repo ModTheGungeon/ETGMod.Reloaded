@@ -262,6 +262,11 @@ namespace ETGMod.Console {
                 return s.ToString();
             });
 
+            AddCommand("lua", (args) => {
+                LuaMode = true;
+                return "[entered lua mode]";
+            });
+
             AddCommand("give", (args) => {
                 LootEngine.TryGivePrefabToPlayer(ETGMod.Items[args[0]].gameObject, GameManager.Instance.PrimaryPlayer, true);
                 return args[0];

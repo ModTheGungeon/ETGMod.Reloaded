@@ -8,6 +8,8 @@ using UnityEngine;
 namespace ETGMod.Console {
     public partial class Console : Backend {
         public static Console Instance;
+        public bool LuaMode = false;
+
         public static Logger Logger = new Logger("Console");
         public override Version Version { get { return new Version(0, 1, 0); } }
 
@@ -22,7 +24,8 @@ namespace ETGMod.Console {
                 return cmd.Run(args, history_index);
             });
 
-            History = new CommandHistory(_Executor, _Parser);
+            NormalHistory = new CommandHistory(_Executor, _Parser);
+            LuaHistory = new CommandHistory(_Executor, _Parser);
          
             Logger.Info($"Console v{Version} loaded");
         }
@@ -47,7 +50,19 @@ namespace ETGMod.Console {
             }
         }
 
-        public CommandHistory History;
+        public CommandHistory History {
+            get {
+                if (LuaMode) return LuaHistory;
+                return NormalHistory;
+            }
+            set {
+                if (LuaMode) LuaHistory = value;
+                else NormalHistory = value;
+            }
+        }
+
+        public CommandHistory NormalHistory;
+        public CommandHistory LuaHistory;
 
         public bool PrintUsedCommand = true;
 
@@ -295,6 +310,47 @@ namespace ETGMod.Console {
                 }
             }
             if (log) _Logger.ErrorPretty(txt);
+        }
+
+        public string ExecuteLua(string src) {
+            if (src == ".quit") {
+                LuaMode = false;
+                return "[left lua mode]";
+            }
+            var lua = ETGMod.ModLoader.LuaState;
+            lua.EnterArea();
+            var top1 = lua.StackTop;
+            lua.BeginProtCall();
+            lua.LoadString(src);
+            lua.ExecProtCall(0, cleanup: true);
+            var top2 = lua.StackTop;
+            object ret = null;
+            if (top2 - top1 >= 1) {
+                ret = lua.ToCLR();
+                lua.Pop();
+            }
+            lua.LeaveArea();
+
+            if (ret == null) return "[no result]";
+            else return ret.ToString();
+        }
+
+        public void ExecuteLuaAndPrintResult(string src) {
+            if (PrintUsedCommand) PrintLine("> " + src, color: UnityUtil.NewColorRGB(87, 87, 87));
+            try {
+                PrintLine(ExecuteLua(src));
+            } catch (Exception e) {
+                PrintError("Exception while running Lua:");
+                PrintError(e.Message);
+                PrintError("More detailed info in the log.");
+
+                _Logger.Error($"Exception while running Lua snippet: '{src}':");
+                var stlines = e.ToString().Split('\n');
+
+                for (int i = 0; i < stlines.Length; i++) {
+                    _Logger.ErrorIndent(stlines[i]);
+                }
+            }
         }
 
         public string ExecuteCommand(string cmd) {
