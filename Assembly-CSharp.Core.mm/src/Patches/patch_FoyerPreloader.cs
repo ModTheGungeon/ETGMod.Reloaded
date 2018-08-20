@@ -8,6 +8,7 @@
 using System;
 using ETGMod;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Reflection;
 using MonoMod;
 using System.IO;
@@ -56,29 +57,123 @@ namespace ETGMod.CorePatches {
             Directory.CreateDirectory(output_dir);
 
             foreach (var assetname in AssetBundles) {
+                var assets_table = new Dictionary<string, int>();
+
                 try {
                     var bundle_dir = Path.Combine(output_dir, assetname.Replace("/", "+"));
                     Directory.CreateDirectory(bundle_dir);
                     System.Console.WriteLine($"=== LOADING ASSET BUNDLE: {assetname} ===");
                     var bundle = ResourceManager.LoadAssetBundle(assetname);
-                    System.Console.WriteLine($"=== OBTAINING ALL ASSETS ===");
-                    var assets = bundle.LoadAllAssets();
-                    System.Console.WriteLine($"=== {assets.Length} ASSETS LOADED ===");
-                    var assets_table = new Dictionary<string, int>();
-                    foreach (var asset in assets) {
-                        System.Console.WriteLine($"=== DUMPING ASSET: {asset.name} ===");
-                        var name = asset.name.Replace("/", "+");
-                        int amount;
-                        if (assets_table.TryGetValue(name, out amount)) {
-                            amount += 1;
-                            assets_table[name] = amount;
-                            name = $"{name}+++{amount}";
-                        } else {
-                            assets_table[name] = 1;
+                    if (bundle.isStreamedSceneAssetBundle) {
+                        System.Console.WriteLine($"=== SCENE ASSET BUNDLE ===");
+                        var scene_paths = bundle.GetAllScenePaths();
+                        var scene_name = Path.GetFileNameWithoutExtension(scene_paths[0]);
+                        System.Console.WriteLine($"=== LOADING SCENE ===");
+                        SceneManager.LoadScene(scene_name);
+                        System.Console.WriteLine($"=== GETTING ALL OBJECTS ===");
+                        var gameobjects = FindObjectsOfType<GameObject>();
+
+                        foreach (var asset in gameobjects) {
+                            var name = asset.name.Replace("/", "+");
+                            int amount;
+                            if (assets_table.TryGetValue(name, out amount)) {
+                                amount += 1;
+                                assets_table[name] = amount;
+                                name = $"{name}+++{amount}";
+                            } else {
+                                assets_table[name] = 1;
+                            }
+
+                            System.Console.WriteLine($"=== DUMPING GAMEOBJECT: {asset.name} ===");
+                            var go_dir = Path.Combine(bundle_dir, name);
+                            if (!Directory.Exists(go_dir)) Directory.CreateDirectory(go_dir);
+                            var index_file = Path.Combine(go_dir, "INDEX");
+                            using (var writer = new StreamWriter(File.OpenWrite(index_file))) {
+                                writer.Write(ObjectDumper.Dump(asset, depth: 10));
+                            }
+
+                            var components_table = new Dictionary<string, int>();
+
+                            var components = ((GameObject)asset).GetComponents<Component>();
+                            foreach (var component in components) {
+                                System.Console.WriteLine($"=== DUMPING COMPONENT: {component.GetType().Name} ===");
+                                    
+                                var com_name = component.GetType().Name.Replace("/", "+");
+
+                                int com_amount;
+                                if (components_table.TryGetValue(com_name, out com_amount)) {
+                                    com_amount += 1;
+                                    components_table[com_name] = com_amount;
+                                    com_name = $"{com_name}+++{com_amount}";
+                                } else {
+                                    components_table[com_name] = 1;
+                                }
+
+                                var com_file = Path.Combine(go_dir, com_name);
+                                using (var writer = new StreamWriter(File.OpenWrite(com_file))) {
+                                    writer.Write(ObjectDumper.Dump(component, depth: 10));
+                                }
+                            }
                         }
-                        var asset_file = Path.Combine(bundle_dir, $"{name}.json");
-                        using (var writer = new StreamWriter(File.OpenWrite(asset_file))) {
-                            writer.Write(ObjectDumper.Dump(asset, depth: 10));
+                    } else {
+                        System.Console.WriteLine($"=== STANDARD ASSET BUNDLE ===");
+
+
+                        System.Console.WriteLine($"=== OBTAINING ALL ASSETS ===");
+                        var assets = bundle.LoadAllAssets();
+                        System.Console.WriteLine($"=== {assets.Length} ASSETS LOADED ===");
+
+                        foreach (var asset in assets) {
+                            var name = asset.name.Replace("/", "+");
+                            int amount;
+                            if (assets_table.TryGetValue(name, out amount)) {
+                                amount += 1;
+                                assets_table[name] = amount;
+                                name = $"{name}+++{amount}";
+                            } else {
+                                assets_table[name] = 1;
+                            }
+
+                            if (asset is GameObject) {
+                                System.Console.WriteLine($"=== DUMPING GAMEOBJECT: {asset.name} ===");
+                                var go_dir = Path.Combine(bundle_dir, name);
+                                if (!Directory.Exists(go_dir)) Directory.CreateDirectory(go_dir);
+                                var index_file = Path.Combine(go_dir, "INDEX");
+                                using (var writer = new StreamWriter(File.OpenWrite(index_file))) {
+                                    writer.Write(ObjectDumper.Dump(asset, depth: 10));
+                                }
+
+                                var components_table = new Dictionary<string, int>();
+
+                                var components = ((GameObject)asset).GetComponents<Component>();
+                                foreach (var component in components) {
+                                    System.Console.WriteLine($"=== DUMPING COMPONENT: {component.GetType().Name} ===");
+
+                                    var com_name = component.GetType().Name.Replace("/", "+");
+
+                                    int com_amount;
+                                    if (components_table.TryGetValue(com_name, out com_amount)) {
+                                        com_amount += 1;
+                                        components_table[com_name] = com_amount;
+                                        com_name = $"{com_name}+++{com_amount}";
+                                    } else {
+                                        components_table[com_name] = 1;
+                                    }
+
+                                    var com_file = Path.Combine(go_dir, com_name);
+                                    using (var writer = new StreamWriter(File.OpenWrite(com_file))) {
+                                        writer.Write(ObjectDumper.Dump(component, depth: 10));
+                                    }
+                                }
+                            } else {
+                                System.Console.WriteLine($"=== DUMPING ASSET: {asset.name} ===");
+
+
+                                var asset_file = Path.Combine(bundle_dir, name);
+                                using (var writer = new StreamWriter(File.OpenWrite(asset_file))) {
+                                    writer.Write(ObjectDumper.Dump(asset, depth: 10));
+                                }
+                            }
                         }
                     }
                 } catch {
@@ -140,7 +235,7 @@ namespace ETGMod.CorePatches {
                 }
             }
 
-            //DumpAssets();
+            if (Environment.GetEnvironmentVariable("ETGMOD_DUMP_ASSETS") == "1") DumpAssets();
 
             orig_Awake();
         }
