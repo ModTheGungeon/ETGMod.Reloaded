@@ -3,8 +3,10 @@
 
 using System;
 using ETGMod;
+using MonoMod;
 
-public class patch_tk2dSpriteCollectionData : tk2dSpriteCollectionData {
+[MonoModPatch("global::tk2dSpriteCollectionData")]
+public class patch_tk2dSpriteCollectionData : global::tk2dSpriteCollectionData {
     private bool _texmod_init = false;
     private tk2dSpriteCollectionData _texmod_saved_collection;
 

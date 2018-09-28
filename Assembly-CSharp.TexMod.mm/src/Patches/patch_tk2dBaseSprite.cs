@@ -2,13 +2,19 @@
 #pragma warning disable 0649
 
 using System;
+using System.Collections;
 using UnityEngine;
+using ETGMod;
 
 public abstract class patch_tk2dBaseSprite : tk2dBaseSprite {
     private void Start() {
+        if (!Animation.Collection.AllCollections.ContainsKey(Collection.spriteCollectionName))
+        {
+            Animation.Collection.AllCollections.Add(Collection.spriteCollectionName, Collection);
+        }
         TexModPatch();
     }
-
+    
     public void TexModUnpatch() {
         if (Collection != null) {
             ((patch_tk2dSpriteCollectionData)Collection).TexModUnpatch();

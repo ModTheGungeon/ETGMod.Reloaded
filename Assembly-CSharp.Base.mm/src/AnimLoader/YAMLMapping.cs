@@ -62,6 +62,7 @@ namespace ETGMod {
                 internal int SpriteDefinitionId;
             }
 
+            public static Serializer Serializer = new SerializerBuilder().Build();
             public static Deserializer Deserializer = new DeserializerBuilder().Build();
 
             public class FidgetDuration {

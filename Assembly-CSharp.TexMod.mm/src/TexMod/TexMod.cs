@@ -82,7 +82,7 @@ namespace TexMod {
             );
         }
 
-        public override void PreGameManagerAlive() {
+        public override void Loaded(){
             Logger.Info("TexMod initialized, adding ModLoader hooks");
 
             ETGMod.ETGMod.ModLoader.PostLoadMod += (ModLoader.ModInfo info) => {

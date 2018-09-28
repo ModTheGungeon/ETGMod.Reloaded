@@ -390,6 +390,21 @@ namespace ETGMod.Console {
                         return "Done.";
                     }
                 });
+            // test commands to dump collection
+            AddGroup("texdump")
+                .WithSubCommand("collection", (args) =>
+                {
+                    if (args.Count == 0)
+                    {
+                        return "No name specified";
+                    }
+                    else
+                    {
+                        string collectionName = args[0];
+                        Animation.Collection.Dump(collectionName);
+                        return "Successfull";
+                    }
+                });
         }
     }
 }
