@@ -1,28 +1,30 @@
 @echo off
-setlocal ENABLEDELAYEDEXPANSION
 
 :: Requirements
-where xbuild >nul 2>nul
-if not %errorlevel%==0 (
-  where msbuild >nul 2>nul
-  if not !errorlevel!==0 (
-    echo ERROR: Neither xbuild nor msbuild were found. Make sure you have Mono or .NET Framework installed and the binaries are available in the PATH.
-    goto _exit
-  )
-)
-
+if not exist "C:\Windows\Microsoft.NET\Framework\v3.5" (
+	echo Error: Microsoft.NET framework not found. Make sure you have Virtual Studio installed.
+	goto _exit
+) 
+     
 set sevenz=7z
-if exist C:\Program Files\7-Zip\7z.exe (
-  set sevenz="C:\Program Files\7-Zip\7z.exe"
-) else (
-  where 7z >nul 2>nul
-  if not %errorlevel%==0 (
-    echo ERROR: 7zip was not found. Make sure that you have it installed and in the PATH.
-    goto _exit
-  )
+if exist "C:\Program Files\7-Zip\7z.exe" (
+	set sevenz="C:\Program Files\7-Zip\7z.exe"
+	goto prep
 )
 
-:: Prepare the target
+if exist "C:\Program Files(x86)\7-Zip\7z.exe" (
+	set sevenz="C:\Program Files (x86)\7-Zip\7z.exe"
+	goto prep
+)  
+
+where 7z >nul 2>nul
+if not %errorlevel%==0 (
+	echo ERROR: 7zip was not found. Make sure that you have it installed and in the PATH.
+	goto _exit
+)
+
+
+:prep
 set target=Debug
 set target_unsigned=Debug
 if %1.==release. goto _if_setrelease
