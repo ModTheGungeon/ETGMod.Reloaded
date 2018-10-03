@@ -218,26 +218,7 @@ namespace ETGMod {
             _LoadMods();
         }
 
-        public void Awake() {
-            System.Console.WriteLine("ENEMY OBJECTS");
-            for (int i = 0; i < EnemyDatabase.Instance.Entries.Count; i++) {
-                var e = EnemyDatabase.Instance.Entries[i];
-
-                var name = "[ERROR]";
-
-                if (e == null) {
-                    name = "[NULL OBJECT]";
-                } else {
-                    try {
-                        var o = EnemyDatabase.GetOrLoadByGuid(e.myGuid);
-                        var pdn = o.encounterTrackable?.journalData?.PrimaryDisplayName;
-                        name = pdn != null ? StringTableManager.GetEnemiesString(pdn) : o.ActorName ?? "[NULL NAME]"; 
-                    } catch { }
-                }
-
-                Console.WriteLine($"{e.myGuid} {name}");
-            }
-        }
+        public void Awake() {}
 
         private void _ReloadMods(bool manual) {
             Logger.Info($"Reloading all backends and mods");

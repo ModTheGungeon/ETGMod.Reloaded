@@ -117,41 +117,9 @@ namespace ETGMod.Console {
             });
 
             AddGroup("debug")
-                .WithSubCommand("summon", (args) => {
-                    if (args.Count < 1) throw new Exception("At least 1 argument required.");
-                    var myguid = args[0];
-                    int count = 0;
-
-                    if (args.Count >= 2) count = int.Parse(args[1]);
-
-                    var prefab = EnemyDatabase.GetOrLoadByGuid(myguid);
-                    for (int i = 0; i < count; i++) {
-                        IntVector2? targetCenter = new IntVector2?(GameManager.Instance.PrimaryPlayer.CenterPosition.ToIntVector2(VectorConversions.Floor));
-                        Pathfinding.CellValidator cellValidator = delegate (IntVector2 c) {
-                            for (int j = 0; j < prefab.Clearance.x; j++) {
-                                for (int k = 0; k < prefab.Clearance.y; k++) {
-                                    if (GameManager.Instance.Dungeon.data.isTopWall(c.x + j, c.y + k)) {
-                                        return false;
-                                    }
-                                    if (targetCenter.HasValue) {
-                                        if (IntVector2.Distance(targetCenter.Value, c.x + j, c.y + k) < 4) {
-                                            return false;
-                                        }
-                                        if (IntVector2.Distance(targetCenter.Value, c.x + j, c.y + k) > 20) {
-                                            return false;
-                                        }
-                                    }
-                                }
-                            }
-                            return true;
-                        };
-                        IntVector2? randomAvailableCell = GameManager.Instance.PrimaryPlayer.CurrentRoom.GetRandomAvailableCell(new IntVector2?(prefab.Clearance), new Dungeonator.CellTypes?(prefab.PathableTiles), false, cellValidator);
-                        if (randomAvailableCell.HasValue) {
-                            AIActor aIActor = AIActor.Spawn(prefab, randomAvailableCell.Value, GameManager.Instance.PrimaryPlayer.CurrentRoom, true, AIActor.AwakenAnimationType.Default, true);
-                            aIActor.HandleReinforcementFallIntoRoom(0);
-                        }
-                    }
-                    return prefab?.ActorName ?? "[Unknown]";
+                .WithSubCommand("spawn-rand-chest", (args) => {
+                    var chest = GameManager.Instance.RewardManager.SpawnTotallyRandomChest(GameManager.Instance.PrimaryPlayer.CurrentRoom.GetRandomAvailableCellDumb());
+                    return chest.name;
                 })
                 .WithSubCommand("force-dual-wield", (args) => {
                     if (args.Count < 1) throw new Exception("At least 1 argument required.");
@@ -251,6 +219,33 @@ namespace ETGMod.Console {
                         return ETGMod.Items.RandomKey;
                     })
                 );
+
+            AddCommand("summon", (args) => {
+                var player = GameManager.Instance.PrimaryPlayer;
+                if (player == null) throw new Exception("No player");
+                var cell = player.CurrentRoom.GetRandomAvailableCellDumb();
+                var entity = AIActor.Spawn(ETGMod.Entities[args[0]], cell, player.CurrentRoom, true, AIActor.AwakenAnimationType.Default, true);
+
+                if (ETGMod.Entities.GetType(args[0]) == ETGMod.EntityType.Friendly) {
+                    entity.CompanionOwner = player;
+                    entity.CompanionSettings = new ActorCompanionSettings();
+                    entity.CanTargetPlayers = false;
+                    var companion = entity.GetComponent<CompanionController>();
+                    if (companion != null) {
+                        companion.Initialize(player);
+                        if (companion.specRigidbody) {
+                            PhysicsEngine.Instance.RegisterOverlappingGhostCollisionExceptions(companion.specRigidbody, null, false);
+                        }
+                    }
+                }
+
+                var name = args[0];
+                if (entity.encounterTrackable?.journalData?.PrimaryDisplayName != null) {
+                    name = StringTableManager.GetEnemiesString(entity.encounterTrackable?.journalData?.PrimaryDisplayName);
+                }
+
+                return name;
+            });
 
             AddCommand("listmods", (args) => {
                 var s = new StringBuilder();

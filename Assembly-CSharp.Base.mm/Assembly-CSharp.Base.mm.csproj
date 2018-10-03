@@ -91,6 +91,7 @@
     <Compile Include="src\Lua\Globals.cs" />
     <Compile Include="src\Hooks\RuntimeHooks.cs" />
     <Compile Include="src\Lua\Hooks.cs" />
+    <Compile Include="src\Patches\ModOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

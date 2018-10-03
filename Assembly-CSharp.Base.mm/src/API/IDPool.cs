@@ -4,11 +4,12 @@ using System.Linq;
 using UnityEngine;
 
 namespace ETGMod {
-    public class IDPool<T>
+    public class IDPool<T, TType>
     {
         private Dictionary<string, T> _Storage = new Dictionary<string, T>();
         private HashSet<string> _LockedNamespaces = new HashSet<string>();
         private HashSet<string> _Namespaces = new HashSet<string>();
+        private Dictionary<string, TType> _Types = new Dictionary<string, TType>();
 
         public T this[string id]
         {
@@ -66,6 +67,28 @@ namespace ETGMod {
             _LockedNamespaces.Add(namesp);
         }
 
+        public TType GetType(string id) {
+            id = Resolve(id);
+            VerifyID(id);
+            if (id.Any(char.IsWhiteSpace)) throw new BadIDElementException("name");
+            if (!_Storage.ContainsKey(id)) throw new NonExistantIDException(id);
+            TType t;
+            if (_Types.TryGetValue(id, out t)) {
+                return t;
+            }
+            return default(TType);
+        }
+
+        public void SetType(string id, TType type) {
+            id = Resolve(id);
+            VerifyID(id);
+            var entry = Split(id);
+            if (_LockedNamespaces.Contains(entry.Namespace)) throw new LockedNamespaceException(entry.Namespace);
+            if (id.Any(char.IsWhiteSpace)) throw new BadIDElementException("name");
+            if (!_Storage.ContainsKey(id)) throw new NonExistantIDException(id);
+            _Types[id] = type;
+        }
+
         public void Set(string id, T obj)
         {
             id = Resolve(id);
@@ -89,7 +112,6 @@ namespace ETGMod {
 
         public T Get(string id)
         {
-            Console.WriteLine($"GETTING {id}");
             id = Resolve(id);
             if (!_Storage.ContainsKey(id)) throw new NonExistantIDException(id);
             return _Storage[id];
