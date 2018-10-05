@@ -1,26 +1,28 @@
 @echo off
+setlocal EnableDelayedExpansion 
 
 :: Requirements
-if not exist "C:\Windows\Microsoft.NET\Framework\v3.5" (
-	echo Error: Microsoft.NET framework not found. Make sure you have Virtual Studio installed.
-	goto _exit
+if not exist "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" (
+    echo ERROR: Microsoft.NET framework 3.5 not found. Make sure you have Virtual Studio installed.
+    goto _exit
 ) 
+set msbuild="C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
      
 set sevenz=7z
 if exist "C:\Program Files\7-Zip\7z.exe" (
-	set sevenz="C:\Program Files\7-Zip\7z.exe"
-	goto prep
+    set sevenz="C:\Program Files\7-Zip\7z.exe"
+    goto prep
 )
 
 if exist "C:\Program Files(x86)\7-Zip\7z.exe" (
-	set sevenz="C:\Program Files (x86)\7-Zip\7z.exe"
-	goto prep
+    set sevenz="C:\Program Files (x86)\7-Zip\7z.exe"
+    goto prep
 )  
 
 where 7z >nul 2>nul
 if not %errorlevel%==0 (
-	echo ERROR: 7zip was not found. Make sure that you have it installed and in the PATH.
-	goto _exit
+    echo ERROR: 7zip was not found. Make sure that you have it installed and in the PATH.
+    goto _exit
 )
 
 
@@ -50,7 +52,7 @@ if %errorlevel%==0 (
   ::call xbuild
   rem
 ) else (
-  call msbuild
+  call %msbuild%
 )
 
 for /f "tokens=*" %%L in (build-files) do (
