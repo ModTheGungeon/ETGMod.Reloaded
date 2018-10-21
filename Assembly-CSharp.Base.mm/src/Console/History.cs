@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ETGMod.Console {
+namespace ETGMod.GUI.Console {
     public class CommandHistory {
         public List<string> Entries = new List<string> { "" };
         public int CurrentIndex = 0;

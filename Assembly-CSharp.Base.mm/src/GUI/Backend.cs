@@ -20,7 +20,7 @@ namespace ETGMod.GUI {
 
             GUIRoot = SGUIRoot.Setup();
             SGUIIMBackend.GetFont = (SGUIIMBackend backend) => {
-                Console.WriteLine($"GETFONT INSTANCE: {CorePatches.MainMenuFoyerController.Instance}");
+                System.Console.WriteLine($"GETFONT INSTANCE: {CorePatches.MainMenuFoyerController.Instance}");
                 if (CorePatches.MainMenuFoyerController.Instance?.VersionLabel == null) return null;
                 return FontCache.GungeonFont ?? (FontCache.GungeonFont = FontConverter.DFFontToUnityFont((dfFont)CorePatches.MainMenuFoyerController.Instance.VersionLabel.Font, 2));
             };

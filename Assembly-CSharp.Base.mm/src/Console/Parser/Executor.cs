@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 
-namespace ETGMod.Console.Parser {
+namespace ETGMod.GUI.Console.Parser {
     public class Executor {
         public delegate string ExecFunc(string name, List<string> args, int? history_index);
 

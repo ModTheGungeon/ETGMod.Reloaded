@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ETGMod.Console.Parser {
+namespace ETGMod.GUI.Console.Parser {
     public class Lexer {
         internal static char[] SPECIAL_UNQUOTED_LITERAL_CHARS = { '[', ']', '"', ' ', '\t', '\n', '\0' };
 

@@ -5,7 +5,7 @@ using UnityEngine;
 using ETGMod.GUI;
 using System.Text;
 
-namespace ETGMod.Console {
+namespace ETGMod.GUI.Console {
     public partial class ConsoleMenu : Menu {
         public static ConsoleMenu Instance;
 

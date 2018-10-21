@@ -8,7 +8,7 @@ using ETGMod.Tools;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace ETGMod.Console {
+namespace ETGMod.GUI.Console {
     public partial class Console : Backend {
         private Logger.Subscriber _LoggerSubscriber;
         private bool _Subscribed = false;

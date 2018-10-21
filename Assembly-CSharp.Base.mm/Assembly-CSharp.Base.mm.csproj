@@ -14,7 +14,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;SGUI_DaikonForge;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -59,6 +59,18 @@
     <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\libs\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\libs\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>..\libs\UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\libs\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\libs\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,6 +104,56 @@
     <Compile Include="src\Hooks\RuntimeHooks.cs" />
     <Compile Include="src\Lua\Hooks.cs" />
     <Compile Include="src\Patches\ModOptions.cs" />
+    <Compile Include="src\Patches\patch_dfButton.cs" />
+    <Compile Include="src\Patches\patch_dfInputManager.cs" />
+    <Compile Include="src\GUI\Backend.cs" />
+    <Compile Include="src\GUI\Font.cs" />
+    <Compile Include="src\Menu\Menu.cs" />
+    <Compile Include="src\Notifications\Animations.cs" />
+    <Compile Include="src\Notifications\Notification.cs" />
+    <Compile Include="src\Notifications\NotificationController.cs" />
+    <Compile Include="src\External\SGUI\src\Animations\SAnimationSequence.cs" />
+    <Compile Include="src\External\SGUI\src\Animations\SEasings.cs" />
+    <Compile Include="src\External\SGUI\src\Animations\SFadeAnimation.cs" />
+    <Compile Include="src\External\SGUI\src\Animations\SFadeInAnimation.cs" />
+    <Compile Include="src\External\SGUI\src\Animations\SFadeOutAnimation.cs" />
+    <Compile Include="src\External\SGUI\src\Animations\SFadeOutShrinkSequence.cs" />
+    <Compile Include="src\External\SGUI\src\Animations\SShrinkAnimation.cs" />
+    <Compile Include="src\External\SGUI\src\Backends\SGUIIMBackend.cs" />
+    <Compile Include="src\External\SGUI\src\DFEXT\SGUIDFInput.cs" />
+    <Compile Include="src\External\SGUI\src\DotNetEXT\AddingNewEventArgs.cs" />
+    <Compile Include="src\External\SGUI\src\DotNetEXT\AddingNewEventHandler.cs" />
+    <Compile Include="src\External\SGUI\src\DotNetEXT\ICancelAddNew.cs" />
+    <Compile Include="src\External\SGUI\src\DotNetEXT\IRaiseItemChangedEvents.cs" />
+    <Compile Include="src\External\SGUI\src\Elements\SButton.cs" />
+    <Compile Include="src\External\SGUI\src\Elements\SGroup.cs" />
+    <Compile Include="src\External\SGUI\src\Elements\SImage.cs" />
+    <Compile Include="src\External\SGUI\src\Elements\SLabel.cs" />
+    <Compile Include="src\External\SGUI\src\Elements\SPreloader.cs" />
+    <Compile Include="src\External\SGUI\src\Elements\SRect.cs" />
+    <Compile Include="src\External\SGUI\src\Elements\STextField.cs" />
+    <Compile Include="src\External\SGUI\src\Elements\SWindowTitleBar.cs" />
+    <Compile Include="src\External\SGUI\src\EMouseStatus.cs" />
+    <Compile Include="src\External\SGUI\src\ISGUIBackend.cs" />
+    <Compile Include="src\External\SGUI\src\Modifiers\SInGameModifier.cs" />
+    <Compile Include="src\External\SGUI\src\Modifiers\SRandomLabelModifier.cs" />
+    <Compile Include="src\External\SGUI\src\SAnimation.cs" />
+    <Compile Include="src\External\SGUI\src\SElement.cs" />
+    <Compile Include="src\External\SGUI\src\SGUIExtensions.cs" />
+    <Compile Include="src\External\SGUI\src\SGUIRoot.cs" />
+    <Compile Include="src\External\SGUI\src\SModifier.cs" />
+    <Compile Include="src\Console\AutoCompletor.cs" />
+    <Compile Include="src\Console\Backend.cs" />
+    <Compile Include="src\Console\Command.cs" />
+    <Compile Include="src\Console\DefaultCommands.cs" />
+    <Compile Include="src\Console\DualWieldForcer.cs" />
+    <Compile Include="src\Console\History.cs" />
+    <Compile Include="src\Console\Menu.cs" />
+    <Compile Include="src\Console\Parser\AST.cs" />
+    <Compile Include="src\Console\Parser\Executor.cs" />
+    <Compile Include="src\Console\Parser\Lexer.cs" />
+    <Compile Include="src\Console\Parser\Parser.cs" />
+    <Compile Include="src\Console\Parser\Token.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -103,12 +165,14 @@
     <Folder Include="src\Patches\" />
     <Folder Include="src\Lua\" />
     <Folder Include="src\Hooks\" />
+    <Folder Include="src\GUI\" />
+    <Folder Include="src\Menu\" />
+    <Folder Include="src\Notifications\" />
+    <Folder Include="src\External\SGUI\" />
+    <Folder Include="src\Console\" />
+    <Folder Include="src\Console\Parser\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Assembly-CSharp.BasePre.mm\Assembly-CSharp.BasePre.mm.csproj">
-      <Project>{EC6C2E23-2BFD-494B-8D02-637314C4B0BB}</Project>
-      <Name>Assembly-CSharp.BasePre.mm</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Assembly-CSharp.Core.mm\Assembly-CSharp.Core.mm.csproj">
       <Project>{4473AD38-DAF1-449A-A850-4296D3368413}</Project>
       <Name>Assembly-CSharp.Core.mm</Name>
@@ -133,6 +197,10 @@
       <Project>{0FE03B01-70EF-4306-9E5F-52F4C2C8C97A}</Project>
       <Name>MicroLua</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\External\SGUI\.gitignore" />
+    <None Include="src\External\SGUI\README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

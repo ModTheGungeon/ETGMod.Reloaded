@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ETGMod.Console {
+namespace ETGMod.GUI.Console {
     public class DualWieldForcer : MonoBehaviour {
         //
         // Fields

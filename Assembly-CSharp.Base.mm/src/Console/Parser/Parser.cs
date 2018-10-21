@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ETGMod.Console.Parser {
+namespace ETGMod.GUI.Console.Parser {
     public class Parser {
         public class ParserException : Exception {
             public Token? Token { set; get; } = null;

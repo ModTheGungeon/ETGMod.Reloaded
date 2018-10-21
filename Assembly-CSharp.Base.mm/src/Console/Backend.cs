@@ -4,8 +4,9 @@ using System.Text;
 using ETGMod;
 using SGUI;
 using UnityEngine;
+using ETGMod.GUI;
 
-namespace ETGMod.Console {
+namespace ETGMod.GUI.Console {
     public partial class Console : Backend {
         public static Console Instance;
         public bool LuaMode = false;
@@ -15,7 +16,7 @@ namespace ETGMod.Console {
 
         public override void GameManagerAlive() {
             Instance = this;
-            GUI.GUI.MenuController.AddMenu<ConsoleMenu>(new KeyCode[] { KeyCode.F2, KeyCode.BackQuote, KeyCode.Slash });
+            GUI.MenuController.AddMenu<ConsoleMenu>(new KeyCode[] { KeyCode.F2, KeyCode.BackQuote, KeyCode.Slash });
             _Executor = new Parser.Executor((name, args, history_index) => {
                 Command cmd = ResolveCommand(name);
                 if (history_index == null && History.LastIndex > 0) {

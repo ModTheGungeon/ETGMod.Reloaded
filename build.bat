@@ -57,24 +57,38 @@ if %errorlevel%==0 (
 
 for /f "tokens=*" %%L in (build-files) do (
   set "line=%%L"
+  setlocal enabledelayedexpansion
+  echo !line!
+  set str=!line:{TARGET}=%target%!
+  echo !str!
   set "line=!line:/=\!"
-  if not "!line:~0,1!"=="#" (
-    set "file_ex=!line:{TARGET}=%target%!"
-    set "file=!file_ex:{TARGET-UNSIGNED}=%target_unsigned%!"
-    for %%f in (!file!) do set target=%%~nxf
-      rem
-
-    echo Copying '!file!' to '%build%/!target!'
-
-    for %%i in (!file!) do (
-      if exist %%~si\nul (
-        robocopy "!file!" "%build%/!target!" /s /e
-      ) else (
-        copy "!file!" "%build%/!target!"
-      )
-    )
-  )
+  endlocal
 )
+
+rem for /f "tokens=*" %%L in (build-files) do (
+rem   set "line=%%L"
+rem   set "line=!line:/=\!"
+rem   if not "!line:~0,1!"=="#" (
+rem     set "file_ex=!line:{TARGET}=%target%!"
+rem     set "file=!file_ex:{TARGET-UNSIGNED}=%target_unsigned%!"
+rem     for %%f in (!file!) do set target=%%~nxf
+rem       rem
+
+rem     echo !line!
+rem     set "file_ex=!line:{TARGET}=A!"
+rem     echo !file_ex!
+rem     call echo %%line%%
+rem     echo Copying '!file!' to '%build%/!target!'
+
+rem     for %%i in (!file!) do (
+rem       if exist %%~si\nul (
+rem         robocopy "!file!" "%build%/!target!" /s /e
+rem       ) else (
+rem         copy "!file!" "%build%/!target!"
+rem       )
+rem     )
+rem   )
+rem )
 
 :: Zipping it all up
 pushd "%build%"

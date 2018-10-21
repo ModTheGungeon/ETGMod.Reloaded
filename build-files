@@ -14,8 +14,6 @@ libs/MicroLua/MicroLua/bin/{TARGET}/MicroLua.dll
 # internal [Assembly-CSharp]
 Assembly-CSharp.Core.mm/bin/{TARGET}/Assembly-CSharp.Core.mm.dll
 Assembly-CSharp.Base.mm/bin/{TARGET}/Assembly-CSharp.Base.mm.dll
-Assembly-CSharp.Console.mm/bin/{TARGET}/Assembly-CSharp.Console.mm.dll
-Assembly-CSharp.GUI.mm/bin/{TARGET}/Assembly-CSharp.GUI.mm.dll
 Assembly-CSharp.TexMod.mm/bin/{TARGET}/Assembly-CSharp.TexMod.mm.dll
 
 # internal [UnityEngine]
