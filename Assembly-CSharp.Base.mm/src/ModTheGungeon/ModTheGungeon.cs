@@ -14,9 +14,9 @@ namespace ModTheGungeon {
         public static Logger Logger = new Logger("ModTheGungeon");
 
 #if DEBUG
-        public static string VersionTag = "beta2-dbg";
+        public static string VersionTag = "beta3-dbg";
 #else
-        public static string VersionTag = "beta2";
+        public static string VersionTag = "beta3";
 #endif
 
         public override string StringVersion {
