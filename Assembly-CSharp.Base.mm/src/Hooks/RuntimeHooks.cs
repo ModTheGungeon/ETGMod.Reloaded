@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using MonoMod.Detour;
 using MicroLua;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public class RuntimeHooks {
         private static TrampolineMap _Trampolines = new TrampolineMap();
         private static HashSet<long> _DispatchHandlers = new HashSet<long>();
@@ -134,11 +134,11 @@ namespace ETGMod {
                 _Logger.DebugIndent(args[i]);
             }
 
-            for (int i = 0; i < ETGMod.ModLoader.LoadedMods.Count; i++) {
-                var mod = ETGMod.ModLoader.LoadedMods[i];
+            for (int i = 0; i < ModTheGungeon.ModLoader.LoadedMods.Count; i++) {
+                var mod = ModTheGungeon.ModLoader.LoadedMods[i];
                 bool returned;
 
-                var obj = _RunLuaHook(mod, ETGMod.ModLoader.LuaState, method_token, target, args, out returned);
+                var obj = _RunLuaHook(mod, ModTheGungeon.ModLoader.LuaState, method_token, target, args, out returned);
 
                 if (returned) {
                     _Logger.Debug($"Short circuit - hook from mod {mod.Name} returned");

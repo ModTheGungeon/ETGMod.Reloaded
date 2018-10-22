@@ -2,14 +2,14 @@
 using System.Collections;
 using UnityEngine;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public static class Loader {
         public static Logger Logger = new Logger("Loader");
     }
 
     public class Coroutine {
         private class DummyBehaviour : MonoBehaviour {}
-        private static GameObject _GameObject = new GameObject("ETGMod Global Coroutines");
+        private static GameObject _GameObject = new GameObject("ModTheGungeon Global Coroutines");
         private static DummyBehavior _DummyBehaviour;
 
         static Coroutine() {

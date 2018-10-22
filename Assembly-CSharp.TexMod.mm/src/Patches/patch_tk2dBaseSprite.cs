@@ -4,7 +4,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using ETGMod;
+using ModTheGungeon;
 
 public abstract class patch_tk2dBaseSprite : tk2dBaseSprite {
     private void Start() {

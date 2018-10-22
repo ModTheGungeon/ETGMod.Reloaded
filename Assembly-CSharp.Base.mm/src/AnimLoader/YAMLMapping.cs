@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using YamlDotNet;
 using YamlDotNet.Serialization;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public partial class Animation {
         public static class YAML {
             public class Collection {

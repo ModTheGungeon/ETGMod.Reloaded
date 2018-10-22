@@ -5,7 +5,7 @@ using System;
 using UnityEngine;
 using MonoMod;
 
-namespace ETGMod.CorePatches {
+namespace ModTheGungeon.CorePatches {
     [MonoModPatch("global::MainMenuFoyerController")]
     public class MainMenuFoyerController : global::MainMenuFoyerController {
         public static MainMenuFoyerController Instance = null;
@@ -28,8 +28,8 @@ namespace ETGMod.CorePatches {
             VersionLabel.ShadowOffset = new Vector2(1, -1);
             VersionLabel.ShadowColor = new Color32(0, 0, 0, 255);
 
-            for (int i = 0; i < ETGMod.Backend.AllBackends.Count; i++) {
-                var backend = ETGMod.Backend.AllBackends[i];
+            for (int i = 0; i < ModTheGungeon.Backend.AllBackends.Count; i++) {
+                var backend = ModTheGungeon.Backend.AllBackends[i];
                 AddLine($"{backend.Name} {backend.StringVersion}");
             }
         }

@@ -5,7 +5,7 @@ using System;
 using SGUI;
 using MonoMod;
 
-namespace ETGMod.GUI.Patches {
+namespace ModTheGungeon.GUI.Patches {
     [MonoModPatch("global::dfButton")]
     public class dfButton : global::dfButton {
         protected extern void orig_OnKeyPress(dfKeyEventArgs args);

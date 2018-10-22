@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using SGUI;
 using UnityEngine;
-using ETGMod.GUI;
+using ModTheGungeon.GUI;
 using System.Text;
 
-namespace ETGMod.GUI.Console {
+namespace ModTheGungeon.GUI.Console {
     public partial class ConsoleMenu : Menu {
         public static ConsoleMenu Instance;
 
@@ -33,7 +33,7 @@ namespace ETGMod.GUI.Console {
 
         public override SElement CreateWindow() {
             Instance = this;
-            var etgmod = Backend.SearchForBackend("ETGMod");
+            var ModTheGungeon = Backend.SearchForBackend("ModTheGungeon");
 
             Console.Instance.AddDefaultCommands();
 
@@ -54,7 +54,7 @@ namespace ETGMod.GUI.Console {
                             elem.Size -= new Vector2(0, elem.Backend.LineHeight);
                         },
                         Children = {
-                            new SLabel($"ETGMod v{etgmod.BestMatch?.Instance.StringVersion ?? "?"}") {
+                            new SLabel($"ModTheGungeon v{ModTheGungeon.BestMatch?.Instance.StringVersion ?? "?"}") {
                                 Foreground = UnityUtil.NewColorRGB(0, 161, 231),
                                 Modifiers = {
                                     new STest()

@@ -2,7 +2,7 @@
 using SGUI;
 using UnityEngine;
 
-namespace ETGMod.GUI {
+namespace ModTheGungeon.GUI {
     public class Notification {
         public Texture Image;
         public string Title;

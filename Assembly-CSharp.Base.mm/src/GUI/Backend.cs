@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
-using ETGMod;
+using ModTheGungeon;
 using SGUI;
 using UnityEngine;
 
-namespace ETGMod.GUI {
+namespace ModTheGungeon.GUI {
     public class GUI : Backend {
         public static Logger Logger = new Logger("GUI");
         public static SGUIRoot GUIRoot;
@@ -47,7 +47,7 @@ namespace ETGMod.GUI {
                 });
             };
 
-            ETGMod.ModLoader.LuaError += (info, method, e) => {
+            ModTheGungeon.ModLoader.LuaError += (info, method, e) => {
                 NotificationController.Notify(new Notification(
                     title: $"An error has occured while loading mod {info.Name}",
                     content: $"The '{method}' method had raised an error. More information in the log."
@@ -56,7 +56,7 @@ namespace ETGMod.GUI {
                 });
             };
 
-            ETGMod.ErrorLoadingMod += (filename, e) => {
+            ModTheGungeon.ErrorLoadingMod += (filename, e) => {
                 NotificationController.Notify(new Notification(
                     title: $"An error has occured while loading '{filename}'",
                     content: "More information in the log."
@@ -65,7 +65,7 @@ namespace ETGMod.GUI {
                 });
             };
 
-            ETGMod.ErrorCreatingModsDirectory += (e) => {
+            ModTheGungeon.ErrorCreatingModsDirectory += (e) => {
                 NotificationController.Notify(new Notification(
                     title: $"An error has occured while trying to create the Mods directory",
                     content: "More information in the log."
@@ -74,7 +74,7 @@ namespace ETGMod.GUI {
                 });
             };
 
-            ETGMod.ModsReloaded += (manual) => {
+            ModTheGungeon.ModsReloaded += (manual) => {
                 if (manual) {
                     NotificationController.Notify(new Notification(
                         title: $"Reloaded!",

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ETGMod.GUI.Console {
+namespace ModTheGungeon.GUI.Console {
     public class Command {
         public string Name { get; protected set; }
         public Dictionary<string, Command> SubCommands = new Dictionary<string, Command>();

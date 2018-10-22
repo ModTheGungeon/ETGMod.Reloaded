@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ETGMod.API {
+namespace ModTheGungeon.API {
     public static class FakePrefab {
         public static GameObject Clone(GameObject obj) {
             var was_active = obj.activeSelf;

@@ -46,7 +46,7 @@ return function(env)
   include "type"
   include "unpack"
   include "_VERSION"
-  env._ETGMOD = true
+  env._MTG = true
   include "xpcall"
 
   env.coroutine = {

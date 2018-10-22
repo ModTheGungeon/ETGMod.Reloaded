@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     internal class AssemblyNameMap {
         private Dictionary<string, string> _AsmNameToPathMap = new Dictionary<string, string>();
         private Dictionary<string, string> _PathToAsmNameMap = new Dictionary<string, string>();

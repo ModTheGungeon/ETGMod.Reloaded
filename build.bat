@@ -38,9 +38,9 @@ set target_unsigned=Release-Unsigned
 
 :: Prepare the build directory
 set build_base=build
-set build_etgmod=ETGMOD
-set "build=%build_base%\%build_etgmod%"
-set "build_zip=%build_base%\%build_etgmod%.zip"
+set build_mtg=MTG-DIST
+set "build=%build_base%\%build_mtg%"
+set "build_zip=%build_base%\%build_mtg%.zip"
 
 if exist "%build_base%" rmdir /q /s "%build_base%"
 mkdir "%build_base%" 2>nul
@@ -92,9 +92,9 @@ rem )
 
 :: Zipping it all up
 pushd "%build%"
-%sevenz% a ETGMOD.zip *
+%sevenz% a MTG-DIST.zip *
 popd
-move "%build%\ETGMOD.zip" "%build_zip%"
+move "%build%\MTG-DIST.zip" "%build_zip%"
 
 :: The End
 :_exit

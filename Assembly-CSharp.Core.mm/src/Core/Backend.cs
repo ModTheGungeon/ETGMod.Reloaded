@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public abstract class Backend : UnityEngine.MonoBehaviour {
         public struct Info {
             public string Name;

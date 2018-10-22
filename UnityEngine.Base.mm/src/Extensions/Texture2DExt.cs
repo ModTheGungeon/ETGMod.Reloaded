@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ETGMod
+namespace ModTheGungeon
 {
     public static class Texture2DExt
     {

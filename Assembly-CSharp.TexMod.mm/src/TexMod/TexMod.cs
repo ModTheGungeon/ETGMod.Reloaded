@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using ETGMod;
+using ModTheGungeon;
 using YamlDotNet.Serialization;
 
 namespace TexMod {
@@ -85,7 +85,7 @@ namespace TexMod {
         public override void Loaded(){
             Logger.Info("TexMod initialized, adding ModLoader hooks");
 
-            ETGMod.ETGMod.ModLoader.PostLoadMod += (ModLoader.ModInfo info) => {
+            ModTheGungeon.ModTheGungeon.ModLoader.PostLoadMod += (ModLoader.ModInfo info) => {
                 var texmod_data = info.ModMetadata.ExtraData<TexModExtra>("texmod");
                 if (texmod_data == null) return;
 

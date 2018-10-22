@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Text;
 using System.IO;
-using ETGMod;
+using ModTheGungeon;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public class LoadedResource {
         public enum StorageType {
             Stream,

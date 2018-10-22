@@ -2,7 +2,7 @@
 using UnityEngine;
 using MicroLua;
 
-namespace ETGMod.Lua {
+namespace ModTheGungeon.Lua {
     public class TriggerContainer : IDisposable {
         public ModLoader.ModInfo Info;
        
@@ -14,21 +14,21 @@ namespace ETGMod.Lua {
         public void InvokeUnloaded() {
             if (UnloadedRef == -1) return;
 
-            ETGMod.ModLoader.LuaState.EnterArea();
-            ETGMod.ModLoader.LuaState.BeginProtCall();
-            ETGMod.ModLoader.LuaState.PushLuaReference(UnloadedRef);
-            ETGMod.ModLoader.LuaState.ExecProtCallVoid(0, cleanup: true);
-            ETGMod.ModLoader.LuaState.LeaveAreaCleanup();
+            ModTheGungeon.ModLoader.LuaState.EnterArea();
+            ModTheGungeon.ModLoader.LuaState.BeginProtCall();
+            ModTheGungeon.ModLoader.LuaState.PushLuaReference(UnloadedRef);
+            ModTheGungeon.ModLoader.LuaState.ExecProtCallVoid(0, cleanup: true);
+            ModTheGungeon.ModLoader.LuaState.LeaveAreaCleanup();
         }
 
         public void InvokeMainMenuLoadedFirstTime() {
             if (MainMenuLoadedFirstTimeRef == -1) return;
 
-            ETGMod.ModLoader.LuaState.EnterArea();
-            ETGMod.ModLoader.LuaState.BeginProtCall();
-            ETGMod.ModLoader.LuaState.PushLuaReference(MainMenuLoadedFirstTimeRef);
-            ETGMod.ModLoader.LuaState.ExecProtCallVoid(0, cleanup: true);
-            ETGMod.ModLoader.LuaState.LeaveAreaCleanup();
+            ModTheGungeon.ModLoader.LuaState.EnterArea();
+            ModTheGungeon.ModLoader.LuaState.BeginProtCall();
+            ModTheGungeon.ModLoader.LuaState.PushLuaReference(MainMenuLoadedFirstTimeRef);
+            ModTheGungeon.ModLoader.LuaState.ExecProtCallVoid(0, cleanup: true);
+            ModTheGungeon.ModLoader.LuaState.LeaveAreaCleanup();
         }
 
         private void _Trigger(LuaState lua, string name, ref int func) {
@@ -42,7 +42,7 @@ namespace ETGMod.Lua {
         }
 
         public TriggerContainer(int env_ref, ModLoader.ModInfo info) {
-            var lua = ETGMod.ModLoader.LuaState;
+            var lua = ModTheGungeon.ModLoader.LuaState;
 
             Info = info;
             lua.PushLuaReference(env_ref);
@@ -52,8 +52,8 @@ namespace ETGMod.Lua {
         }
 
         public void Dispose() {
-            ETGMod.ModLoader.LuaState.DeleteLuaReference(MainMenuLoadedFirstTimeRef);
-            ETGMod.ModLoader.LuaState.DeleteLuaReference(UnloadedRef);
+            ModTheGungeon.ModLoader.LuaState.DeleteLuaReference(MainMenuLoadedFirstTimeRef);
+            ModTheGungeon.ModLoader.LuaState.DeleteLuaReference(UnloadedRef);
 
             RemoveExternalHooks();
         }

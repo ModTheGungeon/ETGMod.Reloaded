@@ -4,70 +4,70 @@
 using System;
 using MonoMod;
 
-namespace ETGMod.BasePatches {
+namespace ModTheGungeon.BasePatches {
     // hacky stuff for passing the scale and region of a parsed definition
 
     [MonoModPatch("global::tk2dSpriteDefinition")]
     public class tk2dSpriteDefinition : global::tk2dSpriteDefinition {
-        public int ETGModOffsetX {
+        public int ModTheGungeonOffsetX {
             get {
                 return (int)position0.x;
             }
         }
 
-        public int ETGModOffsetY {
+        public int ModTheGungeonOffsetY {
             get {
                 return (int)position0.y;
             }
         }
 
-        public int ETGModCropWidth {
+        public int ModTheGungeonCropWidth {
             get {
                 return regionW;
             }
         }
 
-        public int ETGModCropHeight {
+        public int ModTheGungeonCropHeight {
             get {
                 return regionH;
             }
         }
 
-        public int ETGModCropX {
+        public int ModTheGungeonCropX {
             get {
                 return regionX;
             }
         }
 
-        public int ETGModCropY {
+        public int ModTheGungeonCropY {
             get {
                 return regionY;
             }
         }
 
-        public float ETGModScaleW {
+        public float ModTheGungeonScaleW {
             get {
-                var w = position3.x - ETGModOffsetX;
+                var w = position3.x - ModTheGungeonOffsetX;
                 return w * 16f / regionW;
             }
         }
 
-        public float ETGModScaleH {
+        public float ModTheGungeonScaleH {
             get {
-                var w = position3.y - ETGModOffsetY;
+                var w = position3.y - ModTheGungeonOffsetY;
                 return w * 16f / regionH;
             }
         }
 
-        public float ETGModScaledWidth {
+        public float ModTheGungeonScaledWidth {
             get {
-                return (position3.x - ETGModOffsetX) * 16f;
+                return (position3.x - ModTheGungeonOffsetX) * 16f;
             }
         }
 
-        public float ETGModScaledHeight {
+        public float ModTheGungeonScaledHeight {
             get {
-                return (position3.y - ETGModOffsetY) * 16f;
+                return (position3.y - ModTheGungeonOffsetY) * 16f;
             }
         }
     }

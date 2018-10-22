@@ -2,7 +2,7 @@
 #pragma warning disable 0649
 
 using System;
-using ETGMod;
+using ModTheGungeon;
 using MonoMod;
 
 [MonoModPatch("global::tk2dSpriteCollectionData")]

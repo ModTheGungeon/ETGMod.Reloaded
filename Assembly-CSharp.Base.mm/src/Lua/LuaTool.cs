@@ -2,7 +2,7 @@
 using UnityEngine;
 using MicroLua;
 
-namespace ETGMod.Lua {
+namespace ModTheGungeon.Lua {
     public static class LuaTool {
         public static bool IsType<T>(object o) {
             return o is T;

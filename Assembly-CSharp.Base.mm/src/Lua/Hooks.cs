@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using MicroLua;
 
-namespace ETGMod.Lua {
+namespace ModTheGungeon.Lua {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class ForbidLuaHookingAttribute : Attribute {}
 
@@ -12,7 +12,7 @@ namespace ETGMod.Lua {
         public Dictionary<long, System.Type> HookReturns = new Dictionary<long, System.Type>();
 
         public static List<string> ForbiddenNamespaces = new List<string> {
-            "ETGMod",
+            "ModTheGungeon",
             "System",
             "TexMod"
         };
@@ -21,7 +21,7 @@ namespace ETGMod.Lua {
 
         public void Dispose() {
             foreach (var kv in Hooks) {
-                ETGMod.ModLoader.LuaState.DeleteLuaReference(kv.Value);
+                ModTheGungeon.ModLoader.LuaState.DeleteLuaReference(kv.Value);
             }
         }
 
@@ -69,7 +69,7 @@ namespace ETGMod.Lua {
         }
 
         public void Add(int details_table, int fn) {
-            var lua = ETGMod.ModLoader.LuaState;
+            var lua = ModTheGungeon.ModLoader.LuaState;
             lua.EnterArea();
 
             Type criteria_type = null;

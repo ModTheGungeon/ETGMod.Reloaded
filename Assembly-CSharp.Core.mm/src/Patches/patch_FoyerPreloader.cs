@@ -6,16 +6,16 @@
 /////////////////////
 
 using System;
-using ETGMod;
+using ModTheGungeon;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Reflection;
 using MonoMod;
 using System.IO;
-using ETGMod.Tools;
+using ModTheGungeon.Tools;
 using System.Collections.Generic;
 
-namespace ETGMod.CorePatches {
+namespace ModTheGungeon.CorePatches {
     [MonoModPatch("global::FoyerPreloader")]
     internal class FoyerPreloadeer : global::FoyerPreloader {
         public static string[] AssetBundles = new string[] {
@@ -52,7 +52,7 @@ namespace ETGMod.CorePatches {
         };
         public void DumpAssets() {
             Console.WriteLine("DUMPING ALL ASSET BUNDLES!");
-            var output_dir = Path.Combine(Paths.GameFolder, "ETGMOD ASSET DUMP");
+            var output_dir = Path.Combine(Paths.GameFolder, "ModTheGungeon ASSET DUMP");
             if (Directory.Exists(output_dir)) Directory.Delete(output_dir, true);
             Directory.CreateDirectory(output_dir);
 
@@ -235,7 +235,7 @@ namespace ETGMod.CorePatches {
                 }
             }
 
-            if (Environment.GetEnvironmentVariable("ETGMOD_DUMP_ASSETS") == "1") DumpAssets();
+            if (Environment.GetEnvironmentVariable("ModTheGungeon_DUMP_ASSETS") == "1") DumpAssets();
 
             orig_Awake();
         }

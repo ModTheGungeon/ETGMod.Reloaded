@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace ETGMod.Tools {
+namespace ModTheGungeon.Tools {
     public delegate object DynamicMethodDelegate(object target, params object[] args);
     /// <summary>
     /// Stolen from http://theinstructionlimit.com/fast-net-reflection and FEZ. Thanks, Renaud!
@@ -12,7 +12,7 @@ namespace ETGMod.Tools {
     // I will be in the list of contributors! And no one will know that all I did was change
     // field names from camelCase to PascalCase.
 
-    // FEZ -> ETGMod -> ETGMod Reloaded
+    // FEZ -> ModTheGungeon -> ModTheGungeon Reloaded
     // This file is eternal.
 
     public static class ReflectionHelper {

@@ -1,7 +1,7 @@
 ## Mod the Gungeon ##
 
 Zatherz (https://github.com/zatherz, https://gitlab.com/u/zatherz) holds the
-copyright to the entire Mod the Gungeon project, including ETGMod.
+copyright to the entire Mod the Gungeon project, including Mod the Gungeon.
 Contributors agree to sign away their copyright to the contributed code.
 
 
@@ -9,7 +9,7 @@ Mod the Gungeon includes a few dependencies (some in binary, some in source
 format). These are all licensed under compatible licenses, and their licenses
 can be found below.
 
-Mod the Gungeon and ETGMod is licensed under the following terms of the MIT
+Mod the Gungeon is licensed under the following terms of the MIT
 license:
 
 Copyright (c) 2017 Zatherz
@@ -39,7 +39,7 @@ SOFTWARE.
 ###  libs/UnityEngine.dll]                                         ###
 
 These files are **completely stripped of actual code**. They contain only the
-APIs of the original files. Mod the Gungeon and ETGMod do not redistribute
+APIs of the original files. Mod the Gungeon do not redistribute
 original, unstripped DLLs with the original code anywhere. If any of these
 files are left unstripped in a commit, then it is a mistake and critical issue
 which will be solved as soon as possible.
@@ -112,7 +112,7 @@ THE SOFTWARE.
 The Mono runtime, including WinForms, is licensed under MIT. Due to the length
 of the license it's not included in this file. You should be able to find it
 in the file 'LICENSE_MONO' in both the source code and the distributable
-ETGMod archive.
+Mod the Gungeon archive.
 
 
 

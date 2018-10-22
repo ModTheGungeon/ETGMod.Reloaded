@@ -6,7 +6,7 @@ using MonoMod;
 
 namespace TexMod.Patches {
     [MonoModPatch("global::MainMenuFoyerController")]
-    public class MainMenuFoyerController : ETGMod.CorePatches.MainMenuFoyerController {
+    public class MainMenuFoyerController : ModTheGungeon.CorePatches.MainMenuFoyerController {
         private extern void orig_Awake();
 
         private void IdentifyDFTitleCard() {

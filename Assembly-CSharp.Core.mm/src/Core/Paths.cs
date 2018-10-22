@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public static class Paths {
         private static string _GameFolder;
         public static string GameFolder {
@@ -16,7 +16,7 @@ namespace ETGMod {
         public static string ManagedFolder {
             get {
                 if (_ManagedFolder != null) return _ManagedFolder;
-                return _ManagedFolder = Path.GetDirectoryName(typeof(ETGMod.Paths).Assembly.Location);
+                return _ManagedFolder = Path.GetDirectoryName(typeof(ModTheGungeon.Paths).Assembly.Location);
             }
         }
 
@@ -24,7 +24,7 @@ namespace ETGMod {
         public static string ResourcesFolder {
             get {
                 if (_ResourcesFolder != null) return _ResourcesFolder;
-                return _ResourcesFolder = Path.Combine(ManagedFolder, "ETGMod/Resources");
+                return _ResourcesFolder = Path.Combine(ManagedFolder, "ModTheGungeon/Resources");
             }
         }
 
@@ -40,7 +40,7 @@ namespace ETGMod {
         public static string CacheFolder {
             get {
                 if (_CacheFolder != null) return _CacheFolder;
-                return _CacheFolder = Path.Combine(GameFolder, ".ETGModCache");
+                return _CacheFolder = Path.Combine(GameFolder, ".ModTheGungeonCache");
             }
         }
 

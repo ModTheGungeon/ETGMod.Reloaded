@@ -1,6 +1,6 @@
-name: ETGMod
+name: ModTheGungeon
 install_in_managed:
-  - LICENSE_ETGMOD
+  - LICENSE_MODTHEGUNGEON
   - LICENSE_MONO
  
 ordered_targets:

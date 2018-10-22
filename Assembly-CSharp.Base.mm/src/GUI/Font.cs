@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ETGMod.GUI {
+namespace ModTheGungeon.GUI {
     public static class FontCache {
         public static Font GungeonFont = null;
     }

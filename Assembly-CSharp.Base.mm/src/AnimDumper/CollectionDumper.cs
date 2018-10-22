@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using YamlDotNet.Serialization;
 
-namespace ETGMod{
+namespace ModTheGungeon{
     
     public partial class Animation {
         public partial class Collection
@@ -163,16 +163,16 @@ namespace ETGMod{
                     var spritesheet_name = textureid_to_texture_map[tex_id];
                     var spritesheet_tex = textures[spritesheet_name];
 
-//                    var etgmod_def = ((patch_tk2dSpriteDefinition)def);
+//                    var ModTheGungeon_def = ((patch_tk2dSpriteDefinition)def);
 
                     ymldef.X = entry.X;
                     ymldef.Y = entry.Y;
                     ymldef.W = entry.Width;
                     ymldef.H = entry.Height;
-//                    ymldef.OffsetX = etgmod_def.GetETGModOffsetX();
-//                    ymldef.OffsetY = etgmod_def.GetETGModOffsetY();
-//                    ymldef.ScaleW = etgmod_def.GetScaleW(spritesheet_tex);
-//                    ymldef.ScaleH = etgmod_def.GetScaleH(spritesheet_tex);
+//                    ymldef.OffsetX = ModTheGungeon_def.GetModTheGungeonOffsetX();
+//                    ymldef.OffsetY = ModTheGungeon_def.GetModTheGungeonOffsetY();
+//                    ymldef.ScaleW = ModTheGungeon_def.GetScaleW(spritesheet_tex);
+//                    ymldef.ScaleH = ModTheGungeon_def.GetScaleH(spritesheet_tex);
                 }
 
                 // TODO ymldef.DefSize

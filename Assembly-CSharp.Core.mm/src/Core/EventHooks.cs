@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ETGMod {
+namespace ModTheGungeon {
     public static class EventHooks {
         private static Logger _Logger = new Logger("EventHooks");
 

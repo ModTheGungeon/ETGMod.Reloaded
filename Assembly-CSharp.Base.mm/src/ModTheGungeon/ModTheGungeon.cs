@@ -3,15 +3,15 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ETGMod {
-    public partial class ETGMod : Backend {
+namespace ModTheGungeon {
+    public partial class ModTheGungeon : Backend {
         public const KeyCode MOD_RELOAD_KEY = KeyCode.F5;
         public override Version Version { get { return new Version(0, 1, 0); } }
 
         public static bool AutoReloadMods = true;
         private static bool _ShouldAutoReload = false;
 
-        public static Logger Logger = new Logger("ETGMod");
+        public static Logger Logger = new Logger("ModTheGungeon");
 
 #if DEBUG
         public static string VersionTag = "beta2-dbg";
@@ -27,7 +27,7 @@ namespace ETGMod {
 
         public static Action<bool> ModsReloaded = (manual) => { };
 
-        public static ETGMod Instance;
+        public static ModTheGungeon Instance;
         public static ModLoader ModLoader = new ModLoader(Paths.ModsFolder, Paths.CacheFolder);
 
         public static Action<string, Exception> ErrorLoadingMod = (filename, ex) => { };
@@ -184,7 +184,7 @@ namespace ETGMod {
         public override void PreGameManagerAlive() {
             Instance = this;
 
-            Logger.Info($"Core ETGMod init {FullVersion}");
+            Logger.Info($"Core Mod the Gungeon init {FullVersion}");
             Logger.Info($"Game folder: {Paths.GameFolder}");
 
             if (AutoReloadMods) {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public partial class ModLoader {
         public partial class ModInfo {
             public class ResourcePool {

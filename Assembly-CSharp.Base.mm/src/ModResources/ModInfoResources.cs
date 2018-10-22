@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public partial class ModLoader {
         public partial class ModInfo {
             private ResourcePool _Resources;

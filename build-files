@@ -21,7 +21,7 @@ UnityEngine.Core.mm/bin/{TARGET}/UnityEngine.CoreModule.Core.mm.dll
 UnityEngine.Base.mm/bin/{TARGET}/UnityEngine.CoreModule.Base.mm.dll
 
 # licenses
-LICENSE_ETGMOD
+LICENSE_MODTHEGUNGEON
 LICENSE_MONO
 
 # resources

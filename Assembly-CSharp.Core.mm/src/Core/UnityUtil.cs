@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public static class UnityUtil {
         public static Texture2D LoadTexture2D(byte[] content, string name) {
             var tex = new Texture2D(0, 0);

@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using ETGMod.GUI;
-using ETGMod.Tools;
+using ModTheGungeon.GUI;
+using ModTheGungeon.Tools;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace ETGMod.GUI.Console {
+namespace ModTheGungeon.GUI.Console {
     public partial class Console : Backend {
         private Logger.Subscriber _LoggerSubscriber;
         private bool _Subscribed = false;
@@ -176,7 +176,7 @@ namespace ETGMod.GUI.Console {
                     .WithSubCommand("idof", (args) => {
                         if (args.Count < 1) throw new Exception("Exactly 1 argument required (numeric ID).");
                         var id = int.Parse(args[0]);
-                        foreach (var pair in ETGMod.Items.Pairs) {
+                        foreach (var pair in ModTheGungeon.Items.Pairs) {
                             if (pair.Value.PickupObjectId == id) return pair.Key;
                         }
                         return "Entry not found.";
@@ -184,7 +184,7 @@ namespace ETGMod.GUI.Console {
                     .WithSubCommand("nameof", (args) => {
                         if (args.Count < 1) throw new Exception("Exactly 1 argument required (ID).");
                         var id = args[0];
-                        foreach (var pair in ETGMod.Items.Pairs) {
+                        foreach (var pair in ModTheGungeon.Items.Pairs) {
                             if (pair.Key == id) return _GetPickupObjectName(pair.Value);
                         }
                         return "Entry not found.";
@@ -192,7 +192,7 @@ namespace ETGMod.GUI.Console {
                     .WithSubCommand("numericof", (args) => {
                         if (args.Count < 1) throw new Exception("Exactly 1 argument required (ID).");
                         var id = args[0];
-                        foreach (var pair in ETGMod.Items.Pairs) {
+                        foreach (var pair in ModTheGungeon.Items.Pairs) {
                             if (pair.Key == id) return pair.Value.PickupObjectId.ToString();
                         }
                         return "Entry not found.";
@@ -200,7 +200,7 @@ namespace ETGMod.GUI.Console {
                     .WithSubCommand("list", (args) => {
                         var s = new StringBuilder();
                         var pairs = new List<KeyValuePair<string, PickupObject>>();
-                        foreach (var pair in ETGMod.Items.Pairs) {
+                        foreach (var pair in ModTheGungeon.Items.Pairs) {
                             pairs.Add(pair);
                         }
                         foreach (var pair in pairs) {
@@ -216,7 +216,7 @@ namespace ETGMod.GUI.Console {
                         return s.ToString();
                     })
                     .WithSubCommand("random", (args) => {
-                        return ETGMod.Items.RandomKey;
+                        return ModTheGungeon.Items.RandomKey;
                     })
                 );
 
@@ -224,9 +224,9 @@ namespace ETGMod.GUI.Console {
                 var player = GameManager.Instance.PrimaryPlayer;
                 if (player == null) throw new Exception("No player");
                 var cell = player.CurrentRoom.GetRandomAvailableCellDumb();
-                var entity = AIActor.Spawn(ETGMod.Entities[args[0]], cell, player.CurrentRoom, true, AIActor.AwakenAnimationType.Default, true);
+                var entity = AIActor.Spawn(ModTheGungeon.Entities[args[0]], cell, player.CurrentRoom, true, AIActor.AwakenAnimationType.Default, true);
 
-                if (ETGMod.Entities.GetType(args[0]) == ETGMod.EntityType.Friendly) {
+                if (ModTheGungeon.Entities.GetType(args[0]) == ModTheGungeon.EntityType.Friendly) {
                     entity.CompanionOwner = player;
                     entity.CompanionSettings = new ActorCompanionSettings();
                     entity.CanTargetPlayers = false;
@@ -251,7 +251,7 @@ namespace ETGMod.GUI.Console {
                 var s = new StringBuilder();
 
                 s.AppendLine("Loaded mods:");
-                foreach (var mod in ETGMod.ModLoader.LoadedMods) {
+                foreach (var mod in ModTheGungeon.ModLoader.LoadedMods) {
                     _GetModInfo(s, mod);
                 }
                 return s.ToString();
@@ -263,7 +263,7 @@ namespace ETGMod.GUI.Console {
             });
 
             AddCommand("give", (args) => {
-                LootEngine.TryGivePrefabToPlayer(ETGMod.Items[args[0]].gameObject, GameManager.Instance.PrimaryPlayer, true);
+                LootEngine.TryGivePrefabToPlayer(ModTheGungeon.Items[args[0]].gameObject, GameManager.Instance.PrimaryPlayer, true);
                 return args[0];
             });
 

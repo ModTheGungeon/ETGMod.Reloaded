@@ -2,12 +2,12 @@
 #pragma warning disable 0649
 
 using System;
-using ETGMod;
+using ModTheGungeon;
 using UnityEngine;
 using System.Reflection;
 using MonoMod;
 
-namespace ETGMod.CorePatches {
+namespace ModTheGungeon.CorePatches {
     [MonoModPatch("global::GameManager")]
     internal class GameManager : global::GameManager {
         protected extern void orig_Awake();

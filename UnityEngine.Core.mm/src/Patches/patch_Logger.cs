@@ -3,25 +3,25 @@ using MonoMod;
 
 namespace UnityEngine.Patches {
     /// <summary>
-    /// Patches the UnityEngine logger to use ETGMod's logger
+    /// Patches the UnityEngine logger to use ModTheGungeon's logger
     /// </summary>
     [MonoModPatch("UnityEngine.Logger")]
     public class Logger {
-        public static ETGMod.Logger GungeonLogger = new ETGMod.Logger("Gungeon");
+        public static ModTheGungeon.Logger GungeonLogger = new ModTheGungeon.Logger("Gungeon");
 
         /// <summary>
-        /// Converts a UnityEngine.LogType to an ETGMod.Logger.LogLevel
+        /// Converts a UnityEngine.LogType to an ModTheGungeon.Logger.LogLevel
         /// </summary>
-        /// <returns>The ETGMod LogLevel</returns>
+        /// <returns>The ModTheGungeon LogLevel</returns>
         /// <param name="type">The Unity LogType</param>
-        private ETGMod.Logger.LogLevel _LogTypeToLogLevel(LogType type) {
+        private ModTheGungeon.Logger.LogLevel _LogTypeToLogLevel(LogType type) {
             switch(type) {
-                case LogType.Log: return ETGMod.Logger.LogLevel.Info;
-                case LogType.Assert: return ETGMod.Logger.LogLevel.Error;
-                case LogType.Error: return ETGMod.Logger.LogLevel.Error;
-                case LogType.Exception: return ETGMod.Logger.LogLevel.Error;
-                case LogType.Warning: return ETGMod.Logger.LogLevel.Warn;
-                default: return ETGMod.Logger.LogLevel.Debug;
+                case LogType.Log: return ModTheGungeon.Logger.LogLevel.Info;
+                case LogType.Assert: return ModTheGungeon.Logger.LogLevel.Error;
+                case LogType.Error: return ModTheGungeon.Logger.LogLevel.Error;
+                case LogType.Exception: return ModTheGungeon.Logger.LogLevel.Error;
+                case LogType.Warning: return ModTheGungeon.Logger.LogLevel.Warn;
+                default: return ModTheGungeon.Logger.LogLevel.Debug;
             }
         }
 

@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BCD03ACB-E715-4A3D-A4C2-C5717A5D41E4}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ETGMod</RootNamespace>
+    <RootNamespace>ModTheGungeon</RootNamespace>
     <AssemblyName>UnityEngine.CoreModule.Base.mm</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>

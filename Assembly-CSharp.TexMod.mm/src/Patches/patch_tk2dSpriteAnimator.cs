@@ -5,7 +5,7 @@ using System;
 using MonoMod;
 using TexMod;
 using System.Collections.Generic;
-using ETGMod;
+using ModTheGungeon;
 
 abstract public class patch_tk2dSpriteAnimator : tk2dSpriteAnimator {
     private bool _texmod_init = false;

@@ -2,7 +2,7 @@
 using SGUI;
 using UnityEngine;
 
-namespace ETGMod.GUI {
+namespace ModTheGungeon.GUI {
     public class SNopAnimation : SAnimation {
         public SNopAnimation(float duration) : base(duration) {}
 

@@ -3,8 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ETGMod {
-    public partial class ETGMod : Backend {
+namespace ModTheGungeon {
+    public partial class ModTheGungeon : Backend {
         public enum ItemType {
             Unknown,
             Item,
@@ -66,10 +66,10 @@ namespace ETGMod {
 
         private void _InitIDs() {
             var id_pool_base = Path.Combine(Paths.ResourcesFolder, "idmaps");
-            ETGMod.Logger.Info("Loading item ID map");
+            ModTheGungeon.Logger.Info("Loading item ID map");
             Items = _ReadIDMap<PickupObject, ItemType>(PickupObjectDatabase.Instance.Objects, Path.Combine(id_pool_base, "items.txt"));
 
-            ETGMod.Logger.Info("Loading entity ID map");
+            ModTheGungeon.Logger.Info("Loading entity ID map");
             Entities = new IDPool<AIActor, EntityType>();
             using (var file = File.OpenRead(Path.Combine(id_pool_base, "enemies.txt"))) {
                 using (var reader = new StreamReader(file)) {

@@ -3,7 +3,7 @@ using UnityEngine;
 
 // this patch makes it possible to provide a sort-of cross between tk2d and df
 // where texmod patch collections can also patch df sprites assuming they are
-// pre-identified by etgmod
+// pre-identified by ModTheGungeon
 
 // TODO offsx and offsy not supported
 
@@ -56,7 +56,7 @@ public class patch_dfTextureSprite : dfTextureSprite {
 
         TexMod.TexMod.AddPatchedObject(this);
 
-        ETGMod.Animation.Collection collection;
+        ModTheGungeon.Animation.Collection collection;
         TexMod.TexMod.Logger.Debug($"Looking for DF fake TexMod sprite collection ('{_texmod_fake_collname}')");
         if (TexMod.TexMod.CollectionMap.TryGetValue(_texmod_fake_collname, out collection)) {
             TexMod.TexMod.Logger.Debug($"DF fake collection found, searching for definition '{_texmod_fake_defname}'");
@@ -64,18 +64,18 @@ public class patch_dfTextureSprite : dfTextureSprite {
             if (idx != null) {
                 TexMod.TexMod.Logger.Debug($"DF fake definition found! Patching.");
 
-                var def = (ETGMod.BasePatches.tk2dSpriteDefinition)collection.CollectionData.spriteDefinitions[idx.Value];
+                var def = (ModTheGungeon.BasePatches.tk2dSpriteDefinition)collection.CollectionData.spriteDefinitions[idx.Value];
                 Texture = def.material.mainTexture;
                 Material = def.material;
 
-                Width = def.ETGModCropWidth * def.ETGModScaleW;
-                Height = def.ETGModCropHeight * def.ETGModScaleH;
+                Width = def.ModTheGungeonCropWidth * def.ModTheGungeonScaleW;
+                Height = def.ModTheGungeonCropHeight * def.ModTheGungeonScaleH;
 
                 CropRect = new Rect(
-                    def.ETGModCropX,
-                    def.ETGModCropY,
-                    def.ETGModCropWidth,
-                    def.ETGModCropHeight
+                    def.ModTheGungeonCropX,
+                    def.ModTheGungeonCropY,
+                    def.ModTheGungeonCropWidth,
+                    def.ModTheGungeonCropHeight
                 );
                 CropTexture = true;
             }

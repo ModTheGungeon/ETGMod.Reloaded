@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ETGMod {
+namespace ModTheGungeon {
     public class Logger : MarshalByRefObject {
         public enum LogLevel {
             Error = 0,

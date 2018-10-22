@@ -244,5 +244,5 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 
-# ETGMod build script result
+# Mod the Gungeon build script result
 /build/

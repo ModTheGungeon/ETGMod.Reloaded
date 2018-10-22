@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ETGMod;
+using ModTheGungeon;
 using SGUI;
 using UnityEngine;
-using ETGMod.GUI;
+using ModTheGungeon.GUI;
 
-namespace ETGMod.GUI.Console {
+namespace ModTheGungeon.GUI.Console {
     public partial class Console : Backend {
         public static Console Instance;
         public bool LuaMode = false;
@@ -318,7 +318,7 @@ namespace ETGMod.GUI.Console {
                 LuaMode = false;
                 return "[left lua mode]";
             }
-            var lua = ETGMod.ModLoader.LuaState;
+            var lua = ModTheGungeon.ModLoader.LuaState;
             lua.EnterArea();
             var top1 = lua.StackTop;
             lua.BeginProtCall();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ETGMod.GUI.Console.Parser {
+namespace ModTheGungeon.GUI.Console.Parser {
     public enum TokenType {
         CommandStart,
         CommandEnd,

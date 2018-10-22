@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using YamlDotNet.Serialization;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public partial class Animation {
         private static Logger _Logger = new Logger("Animation");
 

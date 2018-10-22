@@ -3,28 +3,28 @@
 
 using System;
 using MonoMod;
-using ETGMod.Tools;
+using ModTheGungeon.Tools;
 using UnityEngine;
 
-namespace ETGMod.BasePatches {
+namespace ModTheGungeon.BasePatches {
     [MonoModPatch("global::PreOptionsMenuController")]
     public class PreOptionsMenuController : global::PreOptionsMenuController {
-        public dfButton TabETGModSelector;
+        public dfButton TabModTheGungeonSelector;
         private dfPanel m_panel;
 
         private extern void orig_Awake();
         private void Awake() {
             orig_Awake();
-            TabETGModSelector = Instantiate(TabGameplaySelector);
-            TabETGModSelector.Text = "MODS";
-            m_panel.AddControl(TabETGModSelector);
+            TabModTheGungeonSelector = Instantiate(TabGameplaySelector);
+            TabModTheGungeonSelector.Text = "MODS";
+            m_panel.AddControl(TabModTheGungeonSelector);
 
-            TabETGModSelector.Position = new Vector3(TabETGModSelector.Position.x, TabGameplaySelector.Position.y - 42.75f, 0);
-            TabControlsSelector.Position = new Vector3(TabControlsSelector.Position.x, TabETGModSelector.Position.y - 42.75f, 0);
+            TabModTheGungeonSelector.Position = new Vector3(TabModTheGungeonSelector.Position.x, TabGameplaySelector.Position.y - 42.75f, 0);
+            TabControlsSelector.Position = new Vector3(TabControlsSelector.Position.x, TabModTheGungeonSelector.Position.y - 42.75f, 0);
             TabVideoSelector.Position = new Vector3(TabVideoSelector.Position.x, TabControlsSelector.Position.y - 42.75f, 0);
             TabAudioSelector.Position = new Vector3(TabAudioSelector.Position.x, TabVideoSelector.Position.y - 42.75f, 0);
-            TabETGModSelector.Click += delegate (dfControl control, dfMouseEventArgs mouseEvent) {
-                ToggleToPanel(((FullOptionsMenuController)FullOptionsMenu).TabETGMod, false, false);
+            TabModTheGungeonSelector.Click += delegate (dfControl control, dfMouseEventArgs mouseEvent) {
+                ToggleToPanel(((FullOptionsMenuController)FullOptionsMenu).TabModTheGungeon, false, false);
             };
         }
 
@@ -43,17 +43,17 @@ namespace ETGMod.BasePatches {
     public class FullOptionsMenuController : global::FullOptionsMenuController {
         private dfControl m_lastSelectedBottomRowControl;
 
-        public dfScrollPanel TabETGMod;
+        public dfScrollPanel TabModTheGungeon;
 
         private extern void orig_Awake();
         private void Awake() {
             orig_Awake();
-            TabETGMod = Instantiate(TabControls);
+            TabModTheGungeon = Instantiate(TabControls);
         }
 
         public extern void orig_ToggleToPanel(dfScrollPanel targetPanel, bool doFocus = false);
         public void ToggleToPanel(dfScrollPanel targetPanel, bool doFocus = false) {
-            TabETGMod.IsVisible = (targetPanel == TabETGMod);
+            TabModTheGungeon.IsVisible = (targetPanel == TabModTheGungeon);
             orig_ToggleToPanel(targetPanel, doFocus);
         }
 
@@ -67,15 +67,15 @@ namespace ETGMod.BasePatches {
                 TabControls.Controls[TabControls.Controls.Count - 2].GetComponent<BraveOptionsMenuItem>().down = m_lastSelectedBottomRowControl;
             } else if (TabGameplay.IsVisible) {
                 TabGameplay.Controls[TabGameplay.Controls.Count - 1].GetComponent<BraveOptionsMenuItem>().down = m_lastSelectedBottomRowControl;
-            } else if (TabETGMod.IsVisible) {
-                TabETGMod.Controls[TabETGMod.Controls.Count - 2].GetComponent<BraveOptionsMenuItem>().down = m_lastSelectedBottomRowControl;
+            } else if (TabModTheGungeon.IsVisible) {
+                TabModTheGungeon.Controls[TabModTheGungeon.Controls.Count - 2].GetComponent<BraveOptionsMenuItem>().down = m_lastSelectedBottomRowControl;
             } else if (TabKeyboardBindings.IsVisible) {
                 TabKeyboardBindings.Controls[TabKeyboardBindings.Controls.Count - 1].GetComponent<KeyboardBindingMenuOption>().KeyButton.GetComponent<UIKeyControls>().down = m_lastSelectedBottomRowControl;
                 TabKeyboardBindings.Controls[TabKeyboardBindings.Controls.Count - 1].GetComponent<KeyboardBindingMenuOption>().AltKeyButton.GetComponent<UIKeyControls>().down = m_lastSelectedBottomRowControl;
             }
         }
 
-        public void ToggleToETGMod() {
+        public void ToggleToModTheGungeon() {
             this.TabGameplay.IsVisible = false;
             this.TabCredits.IsVisible = true;
             this.TabCredits.Controls[0].Focus(true);

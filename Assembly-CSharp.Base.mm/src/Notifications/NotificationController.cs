@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SGUI;
 
-namespace ETGMod.GUI {
+namespace ModTheGungeon.GUI {
     internal class NotificationSGroup : SGroup {
         public bool Decaying = false;
         public bool Displayed = false;

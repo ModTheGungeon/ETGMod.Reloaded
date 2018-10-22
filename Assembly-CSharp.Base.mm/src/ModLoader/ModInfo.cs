@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using ETGMod.Lua;
+using ModTheGungeon.Lua;
 using MicroLua;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public partial class ModLoader {
         public partial class ModInfo : IDisposable {
             public Logger Logger = new Logger("Unnamed Mod");
@@ -80,7 +80,7 @@ namespace ETGMod {
             }
 
             public void RunLua(int func_ref, string name = "[unknown]", object[] args = null) {
-                var lua = ETGMod.ModLoader.LuaState;
+                var lua = ModTheGungeon.ModLoader.LuaState;
 
                 lua.EnterArea();
 
@@ -96,7 +96,7 @@ namespace ETGMod {
                     }
                     lua.ExecProtCall(args?.Length ?? 0);
                 } catch (Exception e) {
-                    ETGMod.ModLoader.LuaError.Invoke(this, LuaEventMethod.Loaded, e);
+                    ModTheGungeon.ModLoader.LuaError.Invoke(this, LuaEventMethod.Loaded, e);
 
                     Logger.Error(e.ToString());
                 } finally {
@@ -105,8 +105,8 @@ namespace ETGMod {
             }
 
             public void Dispose() {
-                ETGMod.ModLoader.LuaState.DeleteLuaReference(LuaEnvironmentRef);
-                ETGMod.ModLoader.LuaState.DeleteLuaReference(RealPackageTableRef);
+                ModTheGungeon.ModLoader.LuaState.DeleteLuaReference(LuaEnvironmentRef);
+                ModTheGungeon.ModLoader.LuaState.DeleteLuaReference(RealPackageTableRef);
                 Triggers?.Dispose();
                 Hooks?.Dispose();
             }

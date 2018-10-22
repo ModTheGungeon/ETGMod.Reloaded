@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using SGUI;
 using UnityEngine;
 
-namespace ETGMod.GUI {
+namespace ModTheGungeon.GUI {
     public class MenuController : MonoBehaviour {
         internal Menu OpenMenu = null;
-        private GameObject _GameObject = new GameObject("ETGMod Menu Controller");
+        private GameObject _GameObject = new GameObject("ModTheGungeon Menu Controller");
         private Dictionary<KeyCode[], Menu> _Menus = new Dictionary<KeyCode[], Menu>();
 
         public void AddMenu<T>(KeyCode[] keys) where T : Menu {

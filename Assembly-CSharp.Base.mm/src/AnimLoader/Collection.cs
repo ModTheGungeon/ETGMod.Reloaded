@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using YamlDotNet.Serialization;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public partial class Animation {
         public partial class Collection {
             private static Logger _Logger = new Logger("Animation");
@@ -23,7 +23,7 @@ namespace ETGMod {
                 _DeserializedYAMLDoc = deserialized;
                 if (base_dir == null) base_dir = info.Resources.BaseDir;
 
-                GameObject = new GameObject($"ETGMod Collection '{deserialized.Name}'");
+                GameObject = new GameObject($"ModTheGungeon Collection '{deserialized.Name}'");
 
                 _Generator = new CollectionGenerator(info, base_dir, _DeserializedYAMLDoc, GameObject);
                 CollectionData = _Generator.ConstructCollection();
@@ -31,7 +31,7 @@ namespace ETGMod {
 
             public Collection(Dictionary<string, Texture2D> textures, YAML.Collection deserialized, string base_dir) {
                 _DeserializedYAMLDoc = deserialized;
-                GameObject = new GameObject($"ETGMod Collection '{deserialized.Name}'");
+                GameObject = new GameObject($"ModTheGungeon Collection '{deserialized.Name}'");
 
                 _Generator = new CollectionGenerator(textures, base_dir, _DeserializedYAMLDoc, GameObject);
                 CollectionData = _Generator.ConstructCollection();

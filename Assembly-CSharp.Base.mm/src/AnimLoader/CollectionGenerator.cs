@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public partial class Animation {
         public partial class Collection {
             public class CollectionGenerator {

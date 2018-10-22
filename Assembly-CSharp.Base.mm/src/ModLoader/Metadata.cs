@@ -4,7 +4,7 @@ using System.IO;
 using System.Security.Cryptography;
 using YamlDotNet.Serialization;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public partial class ModLoader {
         public partial class ModInfo {
             /// <summary>

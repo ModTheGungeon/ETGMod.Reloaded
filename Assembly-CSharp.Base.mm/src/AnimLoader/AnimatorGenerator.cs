@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Random = System.Random;
 using System.IO;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public partial class Animation {
         public class AnimatorGenerator {
             public static Logger Logger = new Logger("AnimatorGenerator");

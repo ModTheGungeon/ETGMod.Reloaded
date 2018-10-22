@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace ETGMod.Tools {
+namespace ModTheGungeon.Tools {
     //http://stackoverflow.com/questions/852181/c-printing-all-properties-of-an-object
     //https://github.com/mcshaz/BlowTrial/blob/master/GenericToDataFile/ObjectDumper.cs
     public class ObjectDumper {

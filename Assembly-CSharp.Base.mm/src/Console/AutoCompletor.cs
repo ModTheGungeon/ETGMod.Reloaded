@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ETGMod.GUI.Console {
+namespace ModTheGungeon.GUI.Console {
     public struct AutoCompletionEntry {
         public string Label { get; private set; }
         public string Content { get; private set; }

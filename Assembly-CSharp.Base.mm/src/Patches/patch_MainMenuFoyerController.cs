@@ -4,14 +4,14 @@
 using System;
 using MonoMod;
 
-namespace ETGMod.BasePatches {
+namespace ModTheGungeon.BasePatches {
     [MonoModPatch("global::MainMenuFoyerController")]
     public class MainMenuFoyerController : global::MainMenuFoyerController {
         public extern void AddLine(string s);
 
         public void Start() {
-            var word = ETGMod.ModLoader.LoadedMods.Count == 1 ? "mod" : "mods";
-            AddLine($"{ETGMod.ModLoader.LoadedMods.Count} {word} loaded");
+            var word = ModTheGungeon.ModLoader.LoadedMods.Count == 1 ? "mod" : "mods";
+            AddLine($"{ModTheGungeon.ModLoader.LoadedMods.Count} {word} loaded");
         }
 
     }

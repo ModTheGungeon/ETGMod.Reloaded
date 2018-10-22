@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-namespace ETGMod
+namespace ModTheGungeon
 {
     public static class GridPacker {
         private static Logger _logger = new Logger("AnimDumper");

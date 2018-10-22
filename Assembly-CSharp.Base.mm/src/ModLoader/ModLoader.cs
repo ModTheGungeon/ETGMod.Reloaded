@@ -9,9 +9,9 @@ using Mono.Cecil;
 using System.Security.Cryptography;
 using System.Linq;
 using MicroLua;
-using ETGMod.Lua;
+using ModTheGungeon.Lua;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public partial class ModLoader {
         public static Logger Logger = new Logger("ModLoader");
         private static ModuleDefinition _AssemblyCSharpModuleDefinition = ModuleDefinition.ReadModule(typeof(WingsItem).Assembly.Location, new ReaderParameters(ReadingMode.Immediate));
@@ -74,7 +74,7 @@ namespace ETGMod {
             UnpackCachePath = Path.Combine(cachepath, "Unpack");
             RelinkCachePath = Path.Combine(cachepath, "Relink");
             ModsPath = modspath;
-            GameObject = new GameObject("ETGMod Mod Loader");
+            GameObject = new GameObject("Mod the Gungeon Mod Loader");
             RefreshLuaState();
         }
 

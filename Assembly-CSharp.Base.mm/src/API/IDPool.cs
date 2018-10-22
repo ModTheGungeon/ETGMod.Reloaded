@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace ETGMod {
+namespace ModTheGungeon {
     public class IDPool<T, TType>
     {
         private Dictionary<string, T> _Storage = new Dictionary<string, T>();
