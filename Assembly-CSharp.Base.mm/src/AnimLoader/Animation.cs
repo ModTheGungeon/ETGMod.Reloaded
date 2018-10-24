@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using YamlDotNet.Serialization;
+using Prefabric;
 
 namespace ModTheGungeon {
     public partial class Animation {

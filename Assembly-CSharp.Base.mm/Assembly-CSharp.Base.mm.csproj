@@ -196,6 +196,10 @@
       <Project>{0FE03B01-70EF-4306-9E5F-52F4C2C8C97A}</Project>
       <Name>MicroLua</Name>
     </ProjectReference>
+    <ProjectReference Include="..\libs\Prefabric\Prefabric\Prefabric.csproj">
+      <Project>{0B4107E3-DD3E-4939-9385-C84B833F9AB5}</Project>
+      <Name>Prefabric</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\External\SGUI\.gitignore" />

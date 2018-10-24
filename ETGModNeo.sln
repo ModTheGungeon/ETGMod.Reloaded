@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "libs\Logger\Logge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroLua", "libs\MicroLua\MicroLua\MicroLua.csproj", "{0FE03B01-70EF-4306-9E5F-52F4C2C8C97A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prefabric", "libs\Prefabric\Prefabric\Prefabric.csproj", "{0B4107E3-DD3E-4939-9385-C84B833F9AB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -254,6 +256,28 @@ Global
 		{0FE03B01-70EF-4306-9E5F-52F4C2C8C97A}.Debug|x86.Build.0 = Debug|Any CPU
 		{0FE03B01-70EF-4306-9E5F-52F4C2C8C97A}.Release|x86.ActiveCfg = Release|Any CPU
 		{0FE03B01-70EF-4306-9E5F-52F4C2C8C97A}.Release|x86.Build.0 = Release|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Debug-AOT|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Debug-AOT|Any CPU.Build.0 = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release-Unsigned|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release-Unsigned|Any CPU.Build.0 = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release-Signed|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release-Signed|Any CPU.Build.0 = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release-Portable-Unsigned|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release-Portable-Unsigned|Any CPU.Build.0 = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release-Portable-Signed|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release-Portable-Signed|Any CPU.Build.0 = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release-UnitySubset-v35|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release-UnitySubset-v35|Any CPU.Build.0 = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Debug-UnitySubset-v35|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Debug-UnitySubset-v35|Any CPU.Build.0 = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Debug|x86.Build.0 = Debug|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release|x86.ActiveCfg = Release|Any CPU
+		{0B4107E3-DD3E-4939-9385-C84B833F9AB5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

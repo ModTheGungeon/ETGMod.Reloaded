@@ -19,3 +19,6 @@
 [submodule "libs/MicroLua"]
 	path = libs/MicroLua
 	url = https://github.com/modthegungeon/MicroLua
+[submodule "libs/Prefabric"]
+	path = libs/Prefabric
+	url = https://github.com/modthegungeon/Prefabric
