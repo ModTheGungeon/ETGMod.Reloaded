@@ -11,6 +11,8 @@ libs/MonoMod/packages/Mono.Cecil.0.10.0-beta5/lib/net35/Mono.Cecil.Pdb.dll
 libs/Logger/bin/{TARGET}/Logger.dll
 libs/MicroLua/MicroLua/bin/{TARGET}/MicroLua.dll
 libs/Prefabric/Prefabric/bin/{TARGET}/Prefabric.dll
+libs/Prefabric/Prefabric/bin/{TARGET}/Newtonsoft.Json.dll
+libs/Prefabric/Prefabric/bin/{TARGET}/System.Xml.Linq.dll
 
 # internal [Assembly-CSharp]
 Assembly-CSharp.Core.mm/bin/{TARGET}/Assembly-CSharp.Core.mm.dll

@@ -1,0 +1,74 @@
+{
+    "name": "Import Test",
+    "version": 1,
+    "transform": {
+      "type": {
+        "assembly": "UnityEngine",
+        "name": "UnityEngine.Transform"
+      },
+      "data": {}
+    },
+    "components": [
+        {
+            "id": "Test 1",
+            "type": {
+              "assembly": "Assembly-CSharp",
+              "name": "ModTheGungeon.PrefabricTest"
+            },
+            "data": {
+                "A": 1,
+                "B": "Hello",
+                "C": {
+                    "type": {
+                        "assembly": "Assembly-CSharp",
+                        "name": "ModTheGungeon.PrefabricTest+InnerObject"
+                    },
+                    "data": {
+                        "A": 42,
+                        "B": "Hello"
+                    }
+                },
+                "StringAry": {
+                    "array_type": {
+                        "assembly": "mscorlib",
+                        "name": "System.String"
+                    },
+                    "entries": [
+                        "A",
+                        "B",
+                        "C",
+                        "Hello"
+                    ]
+                },
+                "ObjectAry": {
+                    "array_type": {
+                        "assembly": "Assembly-CSharp",
+                        "name": "ModTheGungeon.PrefabricTest+InnerObject"
+                    },
+                    "entries": [
+                        {
+                            "type": {
+                                "assembly": ".",
+                                "name": "."
+                            },
+                            "data": {
+                                "A": 42,
+                                "B": "Bye"
+                            }
+                        },
+                        {
+                            "type": {
+                                "assembly": ".",
+                                "name": "."
+                            },
+                            "data": {
+                                "A": 999,
+                                "B": "XXX"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

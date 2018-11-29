@@ -153,6 +153,7 @@
     <Compile Include="src\Console\Parser\Lexer.cs" />
     <Compile Include="src\Console\Parser\Parser.cs" />
     <Compile Include="src\Console\Parser\Token.cs" />
+    <Compile Include="src\PrefabricTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

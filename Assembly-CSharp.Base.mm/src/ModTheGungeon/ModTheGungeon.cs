@@ -216,6 +216,15 @@ namespace ModTheGungeon {
 
             Logger.Info($"Loading mods from '{Paths.ModsFolder}'");
             _LoadMods();
+
+            Logger.Info("Prefabric Test");
+            var json_path = Path.Combine(Paths.ResourcesFolder, "prefabric_test.json");
+            var pfgo = Prefabric.Prefabric.Load(json_path);
+            var go = pfgo.Instantiate();
+            Logger.Info($"go: '{go}'");
+            var prefabric_test = go.GetComponent<PrefabricTest>();
+            Logger.Info($"component: '{prefabric_test}'");
+            prefabric_test.Test();
         }
 
         public void Awake() {}
