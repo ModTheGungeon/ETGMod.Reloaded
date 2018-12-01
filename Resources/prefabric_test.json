@@ -67,6 +67,83 @@
                             }
                         }
                     ]
+                },
+                "ObjectDict": {
+                    "collection_type": {
+                        "assembly": "mscorlib",
+                        "name": "System.Collections.Generic.Dictionary`2",
+                        "generic_params": [
+                            {
+                                "assembly": "mscorlib",
+                                "name": "System.String"
+                            },
+                            {
+                                "assembly": "Assembly-CSharp",
+                                "name": "ModTheGungeon.PrefabricTest+InnerObject"
+                            }
+                        ],
+                        "element_types": [
+                            {
+                                "assembly": "mscorlib",
+                                "name": "System.String"
+                            },
+                            {
+                                "assembly": "Assembly-CSharp",
+                                "name": "ModTheGungeon.PrefabricTest+InnerObject"
+                            }
+                        ]
+                    },
+                    "elements": [
+                        [
+                            "A",
+                            {
+                                "type": {
+                                    "assembly": "Assembly-CSharp",
+                                    "name": "ModTheGungeon.PrefabricTest+InnerObject"
+                                },
+                                "data": {
+                                    "A": 42,
+                                    "B": "Hello"
+                                }
+                            }
+                        ],
+                        [
+                            "Test",
+                            {
+                                "type": {
+                                    "assembly": "Assembly-CSharp",
+                                    "name": "ModTheGungeon.PrefabricTest+InnerObject"
+                                },
+                                "data": {
+                                    "A": 24,
+                                    "B": "olleH"
+                                }
+                            }
+                        ]
+                    ]
+                },
+                "StringList": {
+                    "collection_type": {
+                        "assembly": "mscorlib",
+                        "name": "System.Collections.Generic.List`1",
+                        "generic_params": [
+                            {
+                                "assembly": "mscorlib",
+                                "name": "System.String"
+                            }
+                        ],
+                        "element_types": [
+                            {
+                                "assembly": "mscorlib",
+                                "name": "System.String"
+                            }
+                        ]
+                    },
+                    "elements": [
+                        [ "Element 1" ],
+                        [ "Element 2" ],
+                        [ "Element 3" ]
+                    ]
                 }
             }
         }

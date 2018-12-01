@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModTheGungeon {
@@ -17,6 +18,8 @@ namespace ModTheGungeon {
         public InnerObject C;
         public string[] StringAry;
         public InnerObject[] ObjectAry;
+        public List<string> StringList;
+        public Dictionary<string, InnerObject> ObjectDict;
 
         public void Test() {
             Console.WriteLine($"A: {A} B: {B} C: {C}");
@@ -33,6 +36,19 @@ namespace ModTheGungeon {
                 for (int i = 0; i < ObjectAry.Length; i++) {
                     var ent = ObjectAry[i];
                     Console.WriteLine($"IDX {i}: A: {ent.A} B: {ent.B}");
+                }
+            }
+            if (StringList != null) {
+                Console.WriteLine($"STRINGLIST NOT NULL, COUNT {StringList.Count}");
+                for (int i = 0; i < StringList.Count; i++) {
+                    var ent = StringList[i];
+                    Console.WriteLine($"IDX {i}: VAL {ent}");
+                }
+            }
+            if (ObjectDict != null) {
+                Console.WriteLine($"OBJECTDICT NOT NULL, COUNT {ObjectDict.Count}");
+                foreach (var ent in ObjectDict) {
+                    Console.WriteLine($"IDX {ent.Key}: A: {ent.Value.A} B: {ent.Value.B}");
                 }
             }
         }
